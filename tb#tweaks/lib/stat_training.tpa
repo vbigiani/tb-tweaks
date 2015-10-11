@@ -1,0 +1,138 @@
+
+SILENT
+
+COPY ~stats.2da~ ~stats.2da~
+	READ_2DA_ENTRIES_NOW stats 5
+	FOR (index = 0; index < stats;) BEGIN
+		READ_2DA_ENTRY_FORMER stats  index 0 Stat
+		READ_2DA_ENTRY_FORMER statsf index 0 Statf
+		READ_2DA_ENTRY_FORMER stats  index 1 adjective
+		READ_2DA_ENTRY_FORMER statsf index 1 adjectivef
+		READ_2DA_ENTRY_FORMER stats  index 2 comparative
+		READ_2DA_ENTRY_FORMER statsf index 2 comparativef
+		READ_2DA_ENTRY_FORMER stats  index 3 STA
+		READ_2DA_ENTRY_FORMER stats  index 4 opcode
+		INNER_PATCH_SAVE Stat ~%Stat%~ BEGIN
+			REPLACE_TEXTUALLY ~_~ ~ ~
+		END
+		INNER_PATCH_SAVE adjective ~%adjective%~ BEGIN
+			REPLACE_TEXTUALLY ~_~ ~ ~
+		END
+		INNER_PATCH_SAVE comparative ~%comparative%~ BEGIN
+			REPLACE_TEXTUALLY ~_~ ~ ~
+		END
+		INNER_PATCH_SAVE Statf ~%Statf%~ BEGIN
+			REPLACE_TEXTUALLY ~_~ ~ ~
+		END
+		INNER_PATCH_SAVE adjectivef ~%adjectivef%~ BEGIN
+			REPLACE_TEXTUALLY ~_~ ~ ~
+		END
+		INNER_PATCH_SAVE comparativef ~%comparativef%~ BEGIN
+			REPLACE_TEXTUALLY ~_~ ~ ~
+		END
+		INNER_PATCH 1234 BEGIN
+      FOR (i = 19100; i <= 19112; ++i) BEGIN
+        // yes, I hate myself for thinking this synthax is OK.
+        SAY 0 (AT i)
+        READ_LONG 0 tmp
+        READ_STRREF 0 tmp
+        SPRINT tmp EVALUATE_BUFFER ~%tmp%~
+        READ_STRREF_F 0 tmpf
+        SPRINT tmpf EVALUATE_BUFFER ~%tmpf%~
+        SPRINT EVALUATE_BUFFER ~AT_%i%~ "~%tmp%~ ~%tmpf%~"
+      END
+    END
+		
+		++index
+		
+		INNER_ACTION BEGIN
+			COPY ~tb#tweaks/stat_training/TB#TWST.spl~ ~override/TB#TWS%index%.spl~
+				WRITE_SHORT    0x9a opcode
+		
+			COPY - ~stat-section.d~ ~tb#tweaks/prod/stat-section.d~
+				EVALUATE_BUFFER
+		END
+			
+		FOR (i = 0; i < race_base; ++i) BEGIN
+			READ_2DA_ENTRY_FORMER race_base i 0 RACE 
+			READ_2DA_ENTRY_FORMER race_base i (2 * index) race_max
+			READ_2DA_ENTRY_FORMER race_modifiers i (index) modifier
+			race_max += modifier
+			race_max += custom_modifier
+			INNER_ACTION BEGIN
+				COPY - ~race-section.d~ ~tb#tweaks/prod/race-section.d~
+					EVALUATE_BUFFER
+					FOR (j = 0; j < class_modifiers; ++j) BEGIN
+						READ_2DA_ENTRY_FORMER class_modifiers j 0 _kit
+						READ_2DA_ENTRY_FORMER class_modifiers j (index) modifier
+						kit_max = modifier + race_max
+						PATCH_IF modifier THEN BEGIN
+							PATCH_IF VARIABLE_IS_SET $kit_lookup(EVALUATE_BUFFER ~%_kit%~) THEN BEGIN
+								SPRINT kit $kit_lookup(EVALUATE_BUFFER ~%_kit%~)
+							END ELSE BEGIN
+								SPRINT kit ~%_kit%~
+							END
+							PATCH_IF ~%kit%~ STRING_EQUAL_CASE ~CLASS~ THEN BEGIN
+								INNER_ACTION BEGIN
+									VERBOSE
+									FAIL @19001
+								END
+							END
+							PATCH_IF ~%kit%~ STRING_EQUAL_CASE ~FORBIDDEN~ THEN BEGIN
+								INNER_ACTION BEGIN
+									VERBOSE
+									FAIL @19002 
+								END
+							END
+							REPLACE_TEXTUALLY ~ADD_A_KIT~ ~~~~~IF ~Kit(Myself,%kit%)~ THEN GOTO %STA%_Done 
+									IF ~Kit(Myself,%kit%) !CheckStatLT(Myself,%kit_max%,%STA%)~ THEN GOTO %STA%_at_max
+									ADD_A_KIT~~~~~
+						END
+					END					
+				COPY - ~tb#tweaks/prod/stat-section.d~ ~tb#tweaks/prod/stat-section.d~
+					APPEND_FILE ~tb#tweaks/prod/race-section.d~
+					REPLACE_TEXTUALLY ~ADD_A_RACE~ ~~~~~IF ~Race(Myself, %RACE%)~ THEN GOTO %STA%_%RACE%
+							ADD_A_RACE~~~~~
+					REPLACE_TEXTUALLY ~ADD_A_KIT~ ~~
+					EVALUATE_BUFFER
+			END			
+		END
+		
+		INNER_ACTION BEGIN
+			COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+				APPEND_FILE ~tb#tweaks/prod/stat-section.d~
+				REPLACE_TEXTUALLY ~ADD_A_STAT~ ~~~~~IF ~!Global("tb#twstatdisabled%STA%","LOCALS",1)~ THEN REPLY %AT_19111% DO ~SetGlobal("tb#twstatdisabled%STA%","LOCALS",1)~ GOTO %STA%
+						ADD_A_STAT~~~~~
+				REPLACE_TEXTUALLY ~UNDISABLE_STAT~ ~SetGlobal("tb#twstatdisabled%STA%","LOCALS",0) UNDISABLE_STAT~
+				REPLACE_TEXTUALLY ~ADD_A_RACE~ ~~
+				EVALUATE_BUFFER
+		END
+	END
+BUT_ONLY
+
+VERBOSE
+
+COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+	REPLACE_TEXTUALLY ~ADD_A_STAT~ ~~
+	REPLACE_TEXTUALLY ~UNDISABLE_STAT~ ~~
+	REPLACE_TEXTUALLY ~ADD_THRESHOLD~ ~~
+	REPLACE_TEXTUALLY ~	~ ~~
+
+// turn on if debugging
+ACTION_IF 0 THEN BEGIN
+	MKDIR ~tb#tweaks/prod~
+	COPY + ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+		~tb#tweaks/prod/script.baf~ ~tb#tweaks/prod/script.baf~
+END
+
+APPEND ~STATE.IDS~ ~0x80101FEF CD_STATE_NOTVALID~
+	UNLESS ~CD_STATE_NOTVALID~
+
+COMPILE ~tb#tweaks/prod/tb#twsta.d~
+
+COPY - ~tb#tweaks/prod/script.baf~ ~tb#tweaks/prod/script.baf~
+	APPEND_FILE ~init.baf~
+	EVALUATE_BUFFER
+	EVALUATE_BUFFER
+	
+EXTEND_BOTTOM_REGEXP ~dplayer[23].bcs~ ~tb#tweaks/prod/script.baf~

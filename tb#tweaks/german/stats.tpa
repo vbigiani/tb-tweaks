@@ -1,0 +1,22 @@
+// Only translate columns #1, #2 and #3; use the underscore _  rather than
+// space, as per the 'more_intelligent' example.
+
+// male variant
+<<<<<<<< stats.2da
+Stärke	stark	stärker	STR	44
+Geschicklichkeit	geschickt geschickter	DEX	15
+Konstitution	gesund gesünder	CON	10
+Intelligenz	intelligent intelligenter	INT	19
+Weisheit	weise weiser	WIS	49
+Charisma	charismatisch charismatischer	CHR	6
+>>>>>>>>
+
+// female variant
+<<<<<<<< statsf.2da
+Stärke	stark	stärker
+Geschicklichkeit	geschickt geschickter
+Konstitution	gesund gesünder
+Intelligenz	intelligent intelligenter
+Weisheit	weise weiser
+Charisma	charismatisch charismatischer
+>>>>>>>>

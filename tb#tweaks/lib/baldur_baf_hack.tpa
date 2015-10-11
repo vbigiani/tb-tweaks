@@ -1,0 +1,42 @@
+<<<<<<<< .../tb#tweaks/inlined/%long%/baldur.baf
+IF
+  Global("tb#%medium%cheat","global",1)
+  Global("tb#%medium%","global",1)
+  CombatCounterLT(1)
+THEN
+  RESPONSE #100
+    SetGlobalTimer("tb#%medium%_timer","global",24) // 4 rounds
+    SetGlobal("tb#%medium%","global",2)
+END
+
+IF
+  Global("tb#%medium%","global",1)
+  GlobalTimerNotExpired("tb#%medium%_timer","global")
+  CombatCounterGT(0)
+  Global("tb#%medium%","global",2)
+THEN
+  RESPONSE #100
+    SetGlobal("tb#%medium%","global",1)
+END
+
+IF
+  Global("tb#%medium%cheat","global",1)
+  GlobalTimerExpired("tb#%medium%_timer","global")
+  Global("tb#%medium%","global",2)
+  CombatCounterLT(1)
+THEN
+  RESPONSE #100
+    SetGlobal("tb#%medium%","global",0)
+    ActionOverride(Player1,ReallyForceSpellRES("%short%",Myself))
+    ActionOverride(Player2,ReallyForceSpellRES("%short%",Myself))
+    ActionOverride(Player3,ReallyForceSpellRES("%short%",Myself))
+    ActionOverride(Player4,ReallyForceSpellRES("%short%",Myself))
+    ActionOverride(Player5,ReallyForceSpellRES("%short%",Myself))
+    ActionOverride(Player6,ReallyForceSpellRES("%short%",Myself))
+END
+>>>>>>>>
+
+EXTEND_TOP ~baldur.bcs~ ~.../tb#tweaks/inlined/%long%/baldur.baf~ EVALUATE_BUFFER
+ACTION_IF (FILE_EXISTS_IN_GAME ~baldur25.bcs~) THEN BEGIN
+  EXTEND_TOP ~baldur25.bcs~ ~.../tb#tweaks/inlined/%long%/baldur.baf~ EVALUATE_BUFFER
+END

@@ -1,0 +1,19 @@
+OUTER_SPRINT TOBEX_MOD_DIRECTORY "./tb#tweaks"
+LOAD_TRA "%TOBEX_MOD_DIRECTORY%/TobEx_redist/TobEx.tra"
+ACTION_INCLUDE "%TOBEX_MOD_DIRECTORY%/TobEx_redist/TobEx.tpa"
+
+OUTER_SPRINT ~which~ ~facestab~
+
+COPY_EXISTING_REGEXP GLOB ~^.*\.\(itm\|spl\)$~ ~override~
+  PATCH_INCLUDE ~tb#tweaks/lib/scan_spl.tpp~
+BUT_ONLY
+
+COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
+	PATCH_INCLUDE ~tb#tweaks/lib/scan_cre.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+
+COPY_EXISTING_REGEXP GLOB ~.*\.eff~ ~override~
+	SET start = 0
+	PATCH_INCLUDE ~tb#tweaks/lib/patch_eff_%which%.tpp~
+BUT_ONLY_IF_IT_CHANGES

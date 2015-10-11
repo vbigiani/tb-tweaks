@@ -1,0 +1,28 @@
+// Move to 3rd-edition style values
+// AC bonus is computed with vanilla 3rd edition rules:
+// bonus = floor((D-10)/2)
+// THAC0 and reaction are computed with a slightly different formula to introduce variation:
+// bonus = floor((D-11)/2)
+
+// IMHO thieving abilities progression is already balanced enough, so I leave
+// that be.
+
+COPY_EXISTING ~dexmod.2da~ ~override~
+	COUNT_2DA_ROWS 4 rows
+	FOR (i = 0; i < rows; i += 1) BEGIN
+		FOR (j = 1; j <= 3; j += 1) BEGIN
+			SET_2DA_ENTRY_LATER dexmod i j ((i - 1) / 2 - 5)
+		END
+			SET_2DA_ENTRY_LATER dexmod i 3 (5 - i / 2)
+	END
+	SET_2DA_ENTRIES_NOW dexmod 4
+	PRETTY_PRINT_2DA
+
+// bonus to Save vs. Breath is computed as floor((D-11)/2)
+OUTER_SPRINT name Dexterity
+OUTER_SPRINT abbrev d
+OUTER_SPRINT short DEX
+OUTER_SET offset = 0 - 1
+OUTER_SET opcode = 0x24
+
+INCLUDE ~tb#tweaks/lib/3rd_ed_saves.tpa~

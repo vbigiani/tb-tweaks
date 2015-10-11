@@ -1,0 +1,38 @@
+ACTION_IF GAME_IS ~TUTU TUTU_TotSC BGT~ THEN BEGIN
+  OUTER_FOR (chapter = 1; chapter < 8; ++chapter) BEGIN
+    LAUNCH_ACTION_FUNCTION addConditional STR_VAR
+      name = EVALUATE_BUFFER ~bg1c%chapter%~
+      condition = EVALUATE_BUFFER ~%inBG1% GlobalGT("chapter","GLOBAL",%chapter%)~
+    END
+  END
+END
+
+ACTION_IF GAME_IS ~SoA ToB BGT~ THEN BEGIN
+  OUTER_FOR (chapter = 1; chapter < 10; ++chapter) BEGIN
+    LAUNCH_ACTION_FUNCTION addConditional STR_VAR
+      name = EVALUATE_BUFFER ~bg2c%chapter%~
+      condition = EVALUATE_BUFFER ~%endofBG1% GlobalGT("chapter","GLOBAL",%chapter%)~
+    END
+  END
+END
+
+COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+	APPEND_FILE ~tb#twsta.d~
+	EVALUATE_BUFFER
+
+SILENT
+COPY - ~tb#tweaks/prod/script.baf~ ~tb#tweaks/prod/script.baf~
+  spread = 4
+  maxLevel = 50
+  thresholds = maxLevel / spread
+	FOR (i = spread; i <= maxLevel; i += spread) BEGIN
+		counter = i + 1
+    threshold = i
+		APPEND_FILE ~level.baf~
+		EVALUATE_BUFFER
+		INNER_ACTION BEGIN
+			COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+				REPLACE_TEXTUALLY ~ADD_THRESHOLD~ ~~~~~Global("tb#twstatcounter","LOCALS",%counter%) ADD_THRESHOLD~~~~~
+		END
+	END
+VERBOSE

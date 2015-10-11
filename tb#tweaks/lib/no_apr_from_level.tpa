@@ -1,0 +1,88 @@
+COPY ~tb#tweaks/other/tb#tatt.spl~ ~override~
+
+COPY_EXISTING ~WSPATCK.2DA~ ~override~
+	COUNT_2DA_COLS col_num
+  FOR (row = 0; row < 6; ++row) BEGIN
+    READ_2DA_ENTRY row 1 col_num value
+    FOR (col = 1; col < col_num; ++col) BEGIN
+      SET_2DA_ENTRY_LATER wspatck row col ~%value%~
+    END
+  END
+  SET_2DA_ENTRIES_NOW wspatck col_num
+	PRETTY_PRINT_2DA
+BUT_ONLY
+
+DEFINE_PATCH_MACRO ~fix_a_clab~ BEGIN
+  patched = (VARIABLE_IS_SET $clab_patched(EVALUATE_BUFFER ~%clab%~) && IS_AN_INT $clab_patched(EVALUATE_BUFFER ~%clab%~)) ? $clab_patched(EVALUATE_BUFFER ~%clab%~) : 0
+  // special: Refinements shadow kits
+  PATCH_IF ~%clab%~ STRING_EQUAL_CASE ~clabempt~ THEN BEGIN
+    to_patch = 0
+  END
+  PATCH_IF to_patch THEN BEGIN
+    PATCH_IF patched = 0 THEN BEGIN
+      INNER_ACTION BEGIN
+        ACTION_IF FILE_EXISTS_IN_GAME ~%clab%.2da~ BEGIN
+          COPY_EXISTING ~%clab%.2da~ ~override~
+            COUNT_2DA_ROWS 10 rows
+            READ_2DA_ENTRIES_NOW clab_r 10
+            PATCH_FOR_EACH col IN 7 13 BEGIN
+              done = 0
+              FOR (row = 1; !done && row < rows; ++row) BEGIN
+                READ_2DA_ENTRY_FORMER clab_r row col val
+                PATCH_IF ~%val%~ STRING_EQUAL_CASE ~****~ THEN BEGIN
+                  done = 1
+                  SET_2DA_ENTRY_LATER clab_s row col ~AP_TB#TATT~
+                END
+              END
+              PATCH_IF !done THEN BEGIN
+                PATCH_PRINT @11005
+                PATCH_FAIL @11006
+              END
+            END
+            SET_2DA_ENTRIES_NOW clab_s 10
+            PRETTY_PRINT_2DA
+          BUT_ONLY
+        END
+      END
+      SET $clab_patched(EVALUATE_BUFFER ~%clab%~) = 1
+    END ELSE PATCH_IF patched = 2 THEN BEGIN
+      PATCH_PRINT @11007
+      PATCH_FAIL @11008
+    END
+  END ELSE BEGIN
+    PATCH_IF patched = 1 THEN BEGIN
+      PATCH_PRINT @11007
+      PATCH_FAIL @11008
+    END
+    SET $clab_patched(EVALUATE_BUFFER ~%clab%~) = 2
+  END
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY ~extra_clab~ BEGIN
+  CLABFI01 => 1
+  CLABPA01 => 1
+  CLABPA05 => 1
+  CLABRN01 => 1
+  CLABRN05 => 1
+  CLABPR01 => 0
+  CLABDR01 => 0
+  CLABMO01 => 0
+  CLABMA01 => 0
+  CLABBA01 => 0
+  CLABTH01 => 0
+END
+
+COPY_EXISTING ~kitlist.2da~ ~override~
+  READ_2DA_ENTRIES_NOW _kitlist 9
+  FOR (kitnumber = 1; kitnumber < _kitlist; kitnumber = kitnumber + 1) BEGIN
+    READ_2DA_ENTRY_FORMER _kitlist kitnumber 8 class
+    READ_2DA_ENTRY_FORMER _kitlist kitnumber 5 clab
+    to_patch = (class = 2 || class = 6 || class = 12)
+    LAUNCH_PATCH_MACRO ~fix_a_clab~
+  END
+  
+  PHP_EACH extra_clab AS from => to_patch BEGIN
+    TEXT_SPRINT clab EVALUATE_BUFFER ~%from_0%~
+    LAUNCH_PATCH_MACRO ~fix_a_clab~
+  END
+BUT_ONLY

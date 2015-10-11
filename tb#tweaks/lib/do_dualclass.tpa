@@ -1,0 +1,54 @@
+OUTER_PATCH_SAVE orig_bytes_1 ~~ BEGIN
+	INSERT_BYTES 0x0 0x6
+	WRITE_BYTE   0x0 0x3B
+	WRITE_BYTE   0x1 0x95
+	WRITE_BYTE   0x2 0xD0
+	WRITE_BYTE   0x3 0xF6
+	WRITE_BYTE   0x4 0xFF
+	WRITE_BYTE   0x5 0xFF
+END
+
+OUTER_PATCH_SAVE patch_bytes_1 ~~ BEGIN
+	INSERT_BYTES 0x0 0x6
+	WRITE_BYTE   0x0 0x90
+	WRITE_BYTE   0x1 0x90
+	WRITE_BYTE   0x2 0x90
+	WRITE_BYTE   0x3 0x83
+	WRITE_BYTE   0x4 0xfa
+	WRITE_BYTE   0x5 0x01
+END
+
+OUTER_PATCH_SAVE orig_bytes_2 ~~ BEGIN
+	INSERT_BYTES 0x0 0x6
+	WRITE_BYTE   0x0 0x3B
+	WRITE_BYTE   0x1 0x85
+	WRITE_BYTE   0x2 0x9C
+	WRITE_BYTE   0x3 0xF6
+	WRITE_BYTE   0x4 0xFF
+	WRITE_BYTE   0x5 0xFF
+END
+
+OUTER_PATCH_SAVE patch_bytes_2 ~~ BEGIN
+	INSERT_BYTES 0x0 0x6
+	WRITE_BYTE   0x0 0x90
+	WRITE_BYTE   0x1 0x90
+	WRITE_BYTE   0x2 0x90
+	WRITE_BYTE   0x3 0x83
+	WRITE_BYTE   0x4 0xf8
+	WRITE_BYTE   0x5 0x01
+END
+
+COPY ~bgmain.exe~ ~bgmain.exe~
+	READ_ASCII 0x002DC357 target_bytes_1 ELSE 0 (0x6)
+	READ_ASCII 0x002DC369 target_bytes_2 ELSE 0 (0x6)
+	PATCH_IF (~%target_bytes_1%~ STRING_EQUAL ~%orig_bytes_1%~)
+		 AND (~%target_bytes_2%~ STRING_EQUAL ~%orig_bytes_2%~)
+	THEN BEGIN
+		WRITE_ASCIIE 0x002DC357 ~%patch_bytes_1%~ (0x6)
+		WRITE_ASCIIE 0x002DC369 ~%patch_bytes_2%~ (0x6)
+	END ELSE
+	PATCH_IF (~%target_bytes_1%~ STRING_EQUAL ~%patch_bytes_1%~)
+		 AND (~%target_bytes_2%~ STRING_EQUAL ~%patch_bytes_2%~)
+	THEN BEGIN
+		PATCH_PRINT ~Patch already applied. Skipping ...~
+	END ELSE INNER_ACTION BEGIN FAIL ~Target bytes don't match. Aborting ...~ END

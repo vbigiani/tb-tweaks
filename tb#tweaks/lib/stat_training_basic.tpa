@@ -1,0 +1,33 @@
+<<<<<<<< thresholds.2da
+32000
+1500000
+4500000
+>>>>>>>>
+
+COPY ~thresholds.2da~ ~thresholds.2da~
+	READ_2DA_ENTRIES_NOW thresholds 1
+BUT_ONLY
+	  
+ACTION_IF GAME_IS ~SoA ToB BGT~ THEN BEGIN
+	LAUNCH_ACTION_FUNCTION addConditional STR_VAR name = soa condition = EVALUATE_BUFFER ~%endofBG1%~ END
+END
+
+ACTION_IF GAME_IS ~ToB BGT~ THEN BEGIN
+	LAUNCH_ACTION_FUNCTION addConditional STR_VAR name = tob condition = EVALUATE_BUFFER ~%endofBG1% GlobalGT("Chapter","GLOBAL",7)~ END
+END
+
+COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+	APPEND_FILE ~tb#twsta.d~
+	EVALUATE_BUFFER
+
+COPY - ~tb#tweaks/prod/script.baf~ ~tb#tweaks/prod/script.baf~
+	FOR (i = 0; i < thresholds; ++i) BEGIN
+		READ_2DA_ENTRY_FORMER thresholds i 0 threshold
+		counter = i * 2 + 1
+		APPEND_FILE ~xp.baf~
+		EVALUATE_BUFFER
+		INNER_ACTION BEGIN
+			COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+				REPLACE_TEXTUALLY ~ADD_THRESHOLD~ ~~~~~Global("tb#twstatcounter","LOCALS",%counter%) ADD_THRESHOLD~~~~~
+		END
+	END

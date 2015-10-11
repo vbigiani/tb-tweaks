@@ -1,0 +1,952 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type="text/javascript">
+<!--
+function mail(text)
+		{
+		bits=text.split("###");
+		document.write("<a href=\"mailto:"+bits[0]+"@"+bits[2]+"\">"+bits[4]+"</a>");
+		}
+-->
+</script>
+
+<style type="text/css">
+/*<![CDATA[*/
+<!-- 
+	body {
+		cursor: default;
+		text-align: center;
+		color: #000;
+		background-color: #A1A1A1;
+		margin-top: 20px;
+		margin-bottom: -20px;
+		xwidth: 98%;
+	}
+	
+	#headerdiv-top {
+		text-align: center;
+		font-family: Verdana, Trebuchet MS, Arial, serif;
+		font-size: 200%;
+		font-weight: bold;
+		line-height: 73%;
+		color #020F1D;
+		background-color: #fff;
+		padding: 15px 0px 15px 0px;
+		margin: 0px auto;
+		border-left: solid 1px #532529;
+		border-right: solid 1px #532529;
+		border-bottom: solid 1px #532529;
+		border-top: solid 3px #532529;
+		width: 90%;
+		position: relative;
+		display: block;
+	}
+	
+	#headerdiv-middle {
+		text-align: center;
+		font: italic 75% Verdana, Trebuchet MS, Arial, serif;
+		color: #bbb;
+		font-weight: normal;
+		background-color: #F1F1F1;
+		width: 90%;
+		border-left: solid 1px #532529;
+		border-right: solid 1px #532529;
+		margin: 0px auto;
+		padding: 10px 0px 10px 0px;
+		position: relative;
+		display: block;
+	}
+	
+	.headerdiv-line {
+		color: #532529;
+	}
+	
+	#headerdiv-middle a:link, #headerdiv-middle a:visited {
+		text-decoration: underline;
+		background-color: transparent;
+		color: #000;
+	}
+	
+	#headerdiv-middle a:focus, #headerdiv-middle a:hover {
+		text-decoration: underline;
+		color: #532539;
+	}
+	
+	#headerdiv-middle a:active {
+		color: #000;
+		text-decoration: line-through;
+		border: none;
+	}
+
+	#headerdiv-bottom {
+		text-align: center;
+		font: 83% Verdana, Trebuchet MS, Arial, serif;
+		color: #aaa;
+		padding: 8px 0px 8px 0px;
+		margin: 0px auto;
+		border-left: solid 1px #532529;
+		border-right: solid 1px #532529;
+		border-bottom: solid 3px #532529;
+		border-top: solid 1px #bbb;
+		width: 90%;
+		background-color: #F1F1F1;
+		position: relative;
+		display: block;
+	}
+
+	#maindiv {
+		text-align: center;
+		font-family: Verdana, Trebuchet MS, Arial, serif;
+	}
+	
+	#maindiv div {
+		background-color: #F1F1F1;
+		color: #020F1D;
+		padding: 11px 0px 25px 0px;
+		margin: 50px auto;
+		border-width: 1px 1px 4px 10px;
+		border-style: solid;
+		border-color: #532529;
+		width: 80%;
+		position: relative;
+		display: block;
+	}
+	
+	#maindiv div::before {
+		content: counter(kman, lower-roman);
+		counter-increment: kman;
+		font-size: 100%;
+		font-weight: bold;
+		color: #fff;
+		background-color: #532529;
+		width: 42px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		display: block;
+	}
+	
+	#maindiv p {
+		font-size: 83%;
+		font-style: normal;
+		text-align: justify;
+		line-height: 160%;
+		padding: 0px;
+		margin: 10px auto;
+		width: 90%;
+		display: block;
+	}
+	
+	#headerdiv-bottom a:link, #headerdiv-bottom a:visited {
+		font-weight: bold;
+		text-decoration: none;
+		background-color: transparent;
+		color: #000;
+	}
+	
+	#headerdiv-bottom a:focus, #headerdiv-bottom a:hover {
+		text-decoration: none;
+		color: #532539;
+	}
+	
+	#headerdiv-bottom a:active {
+		color: #000;
+		text-decoration: line-through;
+		border: none;
+	}
+	
+	#maindiv address a:link, #maindiv address a:visited {
+		font-weight: bold;
+		text-decoration: underline;
+		background-color: transparent;
+		color: #fff;
+	}
+	
+	#maindiv address a:focus, #maindiv address a:hover {
+		text-decoration: underline;
+		color: #532539;
+	}
+	
+	#maindiv address a:active {
+		color: #fff;
+		text-decoration: line-through;
+		border: none;
+	}
+	
+	#maindiv address {
+		font-size: 70%;
+		font-style: normal;
+		text-decoration: none;
+		color: #959FAA;
+		background-color: #532529;
+		padding: 3px 0px 0px;
+		margin: 0px;
+		width: 100%;
+		position: absolute;
+		bottom: -1px;
+		left: 0px;
+		display: block;
+		text-align: right;
+	}
+
+	.address-footer-1 {
+		letter-spacing: 0.2em;
+	}
+	
+	h4 {
+		font-family: Verdana, Trebuchet MS, Arial, serif;
+		font-size: 150%;
+		text-align: left;
+		text-indent: 30px;
+		padding: 0px 0px 0px 0px;
+		border-bottom: dotted 2px #ddd;
+	}
+
+	h5 {
+		font-family: Verdana, Trebuchet MS, Arial, serif;
+		font-size: 120%;
+		text-align: left;
+		text-indent: 30px;
+		padding: 0px 0px 0px 0px;
+	}
+
+	h4::first-letter {
+		color: #532529;
+		background-color: transparent;
+	}
+	
+	body h1, body #maindiv h3, h1+h2, body #maindiv h4 {
+	font-weight: bold;
+	display: block;
+	}
+	
+	#maindiv .divimp {
+		font-size: 80%;
+		font-family: Verdana;
+		text-align: left;
+		background-color: #E1E1E1;
+		border-top: solid 1px #bbb;
+		border-bottom: solid 1px #bbb;
+		border-left: solid 6px #bbb;
+		border-right: solid 6px #bbb;
+		padding: 10px;
+		margin: 20px auto;
+		line-height: 150%;
+	}
+	
+	#maindiv .divimp::before {
+		display: none;
+	}
+	
+	#maindiv .divimp p {
+		font-size: 100%;
+		text-indent: 0px;
+	} 
+	
+	.list-numbered {
+		list-style-type: decimal;
+		margin-top: 0px;
+	}
+	
+	#headerdiv-top-fw {
+		font-size: 40%;
+		color: #532529;
+		margin: 0px;
+		padding-top: 9px;
+		display: block;
+	}
+	
+	.faq-q {
+		font-weight: bold;
+		font-style: italic;
+		text-align: justify;
+	}
+
+	.faq-a {
+		text-align: justify;
+	}
+
+	#maindiv .version {
+		display: block;
+		width: 100%;
+		background-color: #F1F1F1;
+		text-align: left;
+		text-indent: 30px;
+		font-style: italic;
+		padding-top: 1px;
+		padding-bottom: 1px;
+		border-bottom: solid 1px #bbb;
+		border-top: solid 1px #bbb;
+	}
+
+	.version-list {
+		line-height: 150%;
+		font-size: 80%;
+		text-align: left;
+		list-style-type: square;
+	}
+-->
+/*]]>*/
+</style>
+<title>The Bigg Tweak Pack Readme</title>
+
+
+
+			<!--<script language="javascript" src="SPELLHOLD%20STUDIOS%20-%20readme_files/js.js"></script>--></head>
+
+
+	<body>
+		<a name="top" id="top"></a>
+		<div id="headerdiv-top">
+			The Bigg Tweak Pack<br>
+			<span id="headerdiv-top-fw">A Spellhold Studios mod</span>
+		</div>
+		<div id="headerdiv-middle">
+			<span class="headerdiv-line">Author: the bigg</span> | <span class="headerdiv-line"><a href="http://forums.spellholdstudios.net/index.php?showforum=252" target="_blank">Forum</a> (opens new window)</span> | <span class="headerdiv-line">Version: 2.61</span>
+		</div>
+		<div id="headerdiv-bottom">
+			<a href="#intro">Introduction</a> | <a href="#compatibility">Compatibility notes</a> | <a href="#installation">Installation</a> | <a href="#components">Components</a> | <a href="#faq">FAQ</a> | <a href="#version">Version history</a> | <a href="#credits">Credits</a> | <a href="#contact">Contact info</a>
+		</div><a name="intro" id="intro"></a>
+		<div id="maindiv">
+
+			<!-- ================== I n t r o d u c t i o n ================== -->
+			<div>
+				<h4>
+					Introduction
+				</h4>
+				<p>
+					This mod is a collection of tweaks, fixes and/or cheats. All of these were written by me (with the usual file which was borrowed from some other mod, as duly noted in the 'thanks' section), except for 'WSPatch for all', the bulk of which was coded by Taimon, and 'Party members can facestab too', the bulk of which was coded by Ascension64.
+		</p>
+				<address>
+					<span class="address-footer-1">The Bigg Tweak Pack &gt; Introduction</span>
+						<a href="#top">BACK TO TOP</a>
+				</address>
+			</div>
+
+			<!-- ================== C o m p a t i b i l i t y ================== -->
+			<a name="compatibility" id="compatibility"></a>
+			<div>
+				<h4>
+					Compatibility notes
+				</h4>
+				<p>
+				This mod should be installed as late as possible, in particular after any mod that adds new spells (or items), mods that add smarter fights, or mods that add RealGlobalSetTimer() actions (EG romances).
+				<br>All these component should install correctly and work over SoA only, but it's untested. Most of these components should also work correctly over Tutu, but that's untested too. (Some of these have no meaning for Tutu, since all the spells/abilities they tweak are of too high level, for example the Nature's Beauty, Imprisonment and/or Wish components).
+		<address>
+					<span class="address-footer-1">The Bigg Tweak Pack &gt; Compatibility Notes</span>
+						<a href="#top">BACK TO TOP</a>
+				</address>
+			</div>
+
+			<!-- ================== I n s t a l l a t i o n ================== -->
+			<a name="installation" id="installation"></a>
+			<div>
+				<h4>
+					Installation
+				</h4>
+				<h5>
+					Windows
+				</h5>
+				<p>
+					The Bigg Tweak Pack is packaged and installed with WeiDU and is distributed as a self-extracting archive. To install, simply double-click the archive and follow the instructions on screen.
+			<br>
+			<br>Alternatively the files can be extracted from the archive using WinRAR. If properly extracted, you should have a tb#tweaks folder, and Setup-tb#tweaks.exe in your BG2 folder. To install, simply double-click Setup-tb#tweak.exe and follow the instructions on screen.
+			<br>
+			<br>Please re-run Setup-tb#tweak.exe in your BG2 folder to reinstall, uninstall or otherwise change components.
+		</p>
+
+				<h5>
+				Macintosh
+				</h5>
+				<p>
+			<i>If the mod was previously installed, uninstall it before extracting the new version. Please note that this mod is incompatible with Mod Organizer. </i> The Bigg Tweak Pack is packaged and installed with WeiDU. To install, simply extract the contents of the mod into your BG2 folder. If properly extracted, you should have a tb#tweaks folder, Setup-tb#tweaks, and Setup-tb#tweaks.command in your BG2 folder. To install, simply double-click Setup-tb#tweaks.command and follow the instructions on screen.
+				</p>
+
+		<h5>
+		Linux
+		</h5>
+		<p>
+		Download the latest version of WeiDU for Linux from
+		<a href="http://www.weidu.org/~thebigg">weidu.org</a> and extract (at least)
+		the WeiDU, weinstall and tolower executables in a $PATH directory (E.G.
+		/usr/bin).
+		<br>Following that, open a terminal, cd to your BG2 installation directory,
+	run `tolower' and answer Y to both queries.
+		<br><span class='small'>
+		You can avoid running the second option (linux.ini) if you've already ran it
+		once in the same directory. To save time, the archive is already tolowered,
+	so there's no need to run the first option (lowercasing file names) either
+		if you've extracted only this mod since the last time you lower cased file
+		name.
+		<br>If you're unsure, running tolower and choosing both options is the safe
+		bet.
+		</span>
+		<br>After that, run 'weinstall tb#tweaks' from your BG2
+		installation directory to install or uninstall the mod.
+		</p>
+
+		<address>
+					<span class="address-footer-1">The Bigg Tweak Pack &gt; Installation</span>
+						<a href="#top">BACK TO TOP</a>
+				</address>
+			</div>
+
+			<!-- ================== C o m p o n e n t s ================== -->
+			<a name="components" id="components"></a>
+			<div>
+				<h4>
+					Components
+				</h4>
+				<p>
+					List of currently available components (each component will link to a more complete description):
+				</p>
+				<div class="divimp">
+					<ul class="list-numbered">
+						<li><a href="#nat">Nature's Beauty Tweaks</a></li>
+						<li><a href="#imp">Imprisonment Fix</a></li>
+						<li><a href="#pet">Petrification Fix</a></li>
+						<li><a href="#dro">Drop Weapons in Panic Removal</a></li>
+						<li><a href="#wi1">Unlimited Limited Wish & Wish</a></li>
+						<li><a href="#wi2">Cheesier Limited Wish & Wish</a> group</li>
+						<li><a href="#dif">Improved Difficulty System</a></li>
+						<li><a href="#fas">Faster Romances</a> group</li>
+						<li><a href="#req">No Item REqurements</a></li>
+						<li><a href="#wsp">WSPATCK for all (Taimon)</a></li>
+						<li><a href="#s3s">3rd Edition Style Strength</a></li>
+						<li><a href="#d3s">3rd Edition Style Dexterity</a></li>
+						<li><a href="#co3">3rd Edition Style Constitution</a></li>
+						<li><a href="#wi3">3rd Edition Style Wisdom</a></li>
+						<li><a href="#ch3">3rd Edition Style Charisma</a></li>
+						<li><a href="#dme">Druids can Wear Metal Items</a></li>
+						<li><a href="#stt">Gain Stats as you Level Up</a></li>
+						<!-- <li><a href="#tdc">Trivial Dual Class</a></li> -->
+            <li><a href="#fac">Party members can facestab</a></li>
+            <li><a href="#spe">Mages drop spellbooks</a></li>
+					</ul>
+				</div>
+				</p>
+
+				<a name="nat" id="Nature's Beauty"></a>
+				<h5>
+					Nature's Beauty Tweak
+				</h5>
+				<p>
+				<div class="divimp">
+					With this component installed, the blinding effect in the Nature's Beauty tweak is reduced to 8 hours of duration. This way you'll be able to rest it off.
+				</div>
+				</p>
+
+				<a name="imp" id="Imprisonment Fix"></a>
+				<h5>
+					Imprisonment Fix
+				</h5>
+				<p>
+				<div class="divimp">
+					This component fixes the Imprisonment effect, so that it won't terminate the game if cast on Player1, doesn't terminate romances, doesn't cause random bugs with summons, and finally you can't use it for infinite experience points. Differently from other fixes circulating, this one also fixes the Protection from Imprisonment effect, and fixes the instances of these occuring in mods.
+				</div>
+				</p>
+
+				<a name="pet" id="Petrification Fix"></a>
+				<h5>
+					Petrification Fix
+				</h5>
+				<p>
+				<div class="divimp">
+					This component fixes the Flesh to Stone effect, so that it won't terminate the game if cast on Player1, doesn't terminate romances, doesn't cause random bugs with summons, and finally you can't use it for infinite experience points. It also fixes the Protection from Petrification and the Stone to Flesh effects, and fixes the instances of these occuring in mods.
+				</div>
+				</p>
+
+				<a name="dro" id="Drop Weapons in Panic Removal"></a>
+				<h5>
+					Drop Weapons in Panic Removal
+				</h5>
+				<p>
+				<div class="divimp">
+					This component removes the Drop Weapons in Panic effect from the game.
+				</div>
+				</p>
+
+				<a name="wi1" id="Wishes Fixes"></a>
+				<h5>
+					Unlimited Limited Wish & Wish
+				</h5>
+				<p>
+				<div class="divimp">
+					This component is deprecated. Use the <a href="http://www.gibberlings3.net/bg2fixpack/">BG2 Fixpack</a> instead.
+				</div>
+				</p>
+
+				<a name="wi2" id="Wishes cheats"></a>
+				<h5>
+					Cheesier Limited Wish & Wish group
+				</h5>
+				<p>
+				<div class="divimp">
+				These are two components, which add cheese possibilities to the two Wish spells:
+				<br>the Covenient Wish lets you get all choices from Wish if you are not in battle, while not affecting the Limited Wish spell.
+				<br>the Cheesy Wish &amp; Limited Wish component lets you get all choices from both Wish and Limited Wish, while one-time wishes remain such.
+				<br>
+				<br>If you have only SoA, you can only install the Cheesy Limited Wish part.
+				</div>
+				</p>
+
+				<a name="dif" id="Improved Difficulty System"></a>
+				<h5>
+					Improved Difficulty System
+				</h5>
+				<p>
+				<div class="divimp">
+				<em>This component has no effect on an unmodded game, it only makes sense with mods that add smarter enemies according to the difficulty level (EG Ding0's Quest Pack, Oversight).</em>
+				<br>This component (based on an idea originally contained in the RtW mod) allows you to set the difficulty level to be different from the one set in the slider. This allows you to get more intelligent enemies, while not getting 200% damage.
+				<br>The difficulty is set via a dialogue with Ggib Eht; if you later want to change your difficulty level, you can either activate the AI, choose your character, and press the 'k' key, or use directly the "RTWMyDifficulty","Global" variable (1=easiest, 5=hardest).
+				</div>
+				</p>
+
+				<a name="fas" id="Faster Romances"></a>
+				<h5>
+					Faster Romances
+				</h5>
+				<p>
+				<div class="divimp">
+				This component will make romances (and other things that are regulated RealGlobalTimer() ) be faster; this isn't a linear decrement (EG reduce timers by 30% or 50%), it uses instead non-obvious mathematical formulas (a rational constant multiplied for a rational power of the original timer, or the original timer if lower) to make sure that the effect is less relevant on short timers, while being sensible on longer timers. For example, on the Medium setting a timer of half an hour (wall clock) is reduced to 25 minutes, while a time of 6 hours (wall clock) is reduced to only 2 hours.
+				</div>
+				</p>
+
+				<a name="req" id="No Item Requirements"></a>
+				<h5>
+					No Item Requirements
+				</h5>
+				<p>
+				<div class="divimp">
+					This component will remove all statistic requirements from items, so that you can wear full plate with 1 strenght, use a scroll with 1 int, et cetera. While this classifies as a cheat, it removes some of the frustration that can arise with mods that enhance those restrictions (like Ashes of Embers).
+				</div>
+				</p>
+				
+				<a name="wsp" id="WSPatck for all"></a>
+				<h5>
+					WSPATCK for all
+				</h5>
+				<p>
+				<div class="divimp">
+					This component will give attack per round bonuses to all characters according to WSPATCK.2da.
+          You can choose to do this in the following manners:
+          <ul><li>"Always": full bonuses for all characters (overpowered)</li>
+          <li>"Only for ** and up": one ApR for all non-specialized characters, full bonuses for those at least
+          specialized (making specialization worthwhile for swashbucklers and nerfing not specialized warriors).</li>
+          <li>"Everybody gets ApR from proficiency, only Warriors from level": Fighters/Rangers/Paladins/Barbarians get
+          half an attack per round at 7<sup>th</sup> and 13<sup>th</sup> level; everybody gets half an attack if Specialized
+          and (if one of the "True Grandmastery" patches are installed) an additional attack if Grand Master.</li>
+					<br />
+					This component was largely coded by Taimon and recoded by Ascension64; it and automatically includes
+          <a href="http://bit.ly/i8awTx">Ascension64's TobEx</a>, and as such will not
+          work on OSX (and might or might not work on Linux).
+
+				</div>
+				</p>
+				
+				<a name="s3s" id="3rd edition style strength"></a>
+				<h5>
+					3rd Edition Style Strength
+				</h5>
+				<p>
+				<div class="divimp">
+					This component alters the Strength tables so that the effects of mid-range values of strength are now different: for example, 8 Strength gets -1 thac0, -1 damage, whereas 14 gets you +2/+2. Previously both cases would receive +0/+0.
+					<br /><br />Thac0 is computed with the real 3rd edition rules (thac0 bonus = (str - 10) / 2), whereas the other Strength bonuses (damage bonus, bend bars/lift gates, weight allowance) use different rules. In the case of damage, the formula is similar (damage bonus = (str - 9) / 2); the value is greater because that's how it's in 2nd edition, and to ensure that advancing to an odd value is useful. The formulas used for BBLG and weight allowance are too complicated for this document - they were designed with the goal to behave similarly to the 2nd edition tables, but smoothening them around the 18-19 gap caused by extraordinary strength. If you want more in-depth info, the file tb#tweaks/doc/strength/strength.pdf offers tables and graphs, and the file tb#tweaks/lib/3rd_ed_str.tpa contains a discussion.
+					<br /><br />As an additional consequence, exceptional strength is irrilevant (even if still shown) and going from 18 to 19 isn't now black-and-white change.
+					
+				</div>
+				</p>
+				
+				<a name="d3s" id="3rd edition style dexterity"></a>
+				<h5>
+					3rd Edition Style Dexterity
+				</h5>
+				<p>
+				<div class="divimp">
+					This component alters the Dexterity tables so that the effects of mid-range values of dexterity are now different: for example, 8 dexterity gets you -1 AC, whereas 14 gets you +2. Previously both cases would receive +0.
+					<br /><br />AC bonuses are computed with the real 3rd edition rules (bonus = (dex - 10) / 2), whereas reaction bonus, ranged thac0 bonus and Save vs. Breath bonus is slightly lower (bonus = (dex - 11) / 2)), to ensure that advancing to an odd value is useful.
+					
+				</div>
+				</p>
+				
+				<a name="co3" id="3rd edition style constitution"></a>
+				<h5>
+					3rd Edition Style Constitution
+				</h5>
+				<p>
+				<div class="divimp">
+					This component alters the Constitution tables so that the effects of mid-range values of constitution are now different: for example, 8 constitution gets you -1 HP per level, whereas 14 gets you +2. Previously both cases would receive +0.
+					<br /><br />Bonuses to hit points and fatigue are computed with the real 3rd edition rules (bonus = (con - 10) / 2), whereas Save vs. Poison/Hold/Death is slightly lower (bonus = (con - 11) / 2). Regeneration rate and minimum dice are untouched.
+					<br /><br />As an additional consequence, all classes would benefit from a constitution over 16. Previously, only fighters/rangers/paladins would.
+					
+				</div>
+				</p>
+
+				<a name="wi3" id="3rd edition style wisdom"></a>
+				<h5>
+					3rd Edition Style Wisdom
+				</h5>
+				<p>
+				<div class="divimp">
+					This component alters the Wisdom tables so you can get a bonus to Save vs. Spell, as you would in 3rd edition: bonus = (wis - 10) / 2)
+					
+				</div>
+				</p>				
+				<a name="ch3" id="3rd edition style charisma"></a>
+				<h5>
+					3rd Edition Style Charisma
+				</h5>
+				<p>
+				<div class="divimp">
+					This component alters the Charisma tables so that the effects of mid-range values of charisma are now different.
+					<br /><br />Only store discounts are altered. (discount = max(5 * (cha - 10) / 2),0).
+					
+				</div>
+				</p>
+				
+				<a name="dme" id="druids can wear metal"></a>
+				<h5>
+					Druids can Wear Metal
+				</h5>
+				<p>
+				<div class="divimp">
+					This component allows druids to wear helmets, and fighter/druids to wear metal armor. This does nothing in the standard game, but will revert changes by Divine Remix and/or Item Revision.
+					
+				</div>
+				</p>
+				
+				<a name="stt" id="gain stats as you level up"></a>
+				<h5>
+					Gain Stats as you Level Up
+				</h5>
+				<p>
+				<div class="divimp">
+					With this component installed, characters will receive the possibility of increasing their stats when they reach certain XP thresholds and/or stages in the game.
+					These bonuses are cumulative and retroactive (so a character created or recruited during ToB will receive all BG1 and SoA rewards as soon as he joins the party).
+					<br />/br />Subcomponents allow you to choose:
+          <ul><li>who has to obey his/her racial stat limits: everybody, everybody but CHARNAME, or nobody.</li>
+          <li>How many stat points you will receive. With the more generous options, nobody will be bound by racial limits on their stats.</li>
+          </ul>
+					
+				</div>
+				</p>
+				
+				
+				<!-- <a name="tdc" id="trivial dual class"></a>
+				<h5>
+					Trivial dual class
+				</h5>
+				<p>
+				<div class="divimp">
+					After dual-classing, you regain the old class' abilities as soon as you reach level 2
+					in your old class, rather than after reach one level more than your older class. 
+					<br />If you load a character that was dual-classed and didn't yet regain his old class
+					abilities (either by installing this component mid-game or because he joined the party in
+					this state), then the character will only re-acquire his old class after he reaches one level
+					more than the older class.
+				</div>
+				</p> -->
+				
+				<a name="fac" id="facestabbing"></a>
+				<h5>
+					Party members can facestab too.
+				</h5>
+				<p>
+				<div class="divimp">
+          This component is coded via (and automatically includes)          
+          <a href="http://bit.ly/i8awTx">Ascension64's TobEx</a>, and as such will not
+          work on OSX (and might or might not work on Linux).
+          <br /><br />
+					With this component, your party members will succesfully backstab the enemy when
+          attacking while invisible, whether they attack from the front or the back
+          (previously, they needed to be behind their target for the backstab to register).
+          <br /><br />
+          Two options are offered: you can either have all your party members have this
+          capability, or have the capability contingent on being under the effect of
+          Non-Dection.
+				</div>
+				</p>
+        
+        <a name="spe" id="spellbooks"></a>
+        <h5>
+          Mages drop spellbooks.
+        </h5>
+        <p>
+        <div class="divimp">
+          This component is coded via (and automatically includes)          
+          <a href="http://bit.ly/i8awTx">Ascension64's TobEx</a>, and as such will not
+          work on OSX (and might or might not work on Linux).
+          <br /><br />
+          With this component, enemy mages have a chance of dropping a spellbook containing
+          some of their memorized Wizard spells. The chances of actually doing so are random:
+          you can choose (indipendently) that mages have a 25%, 50%, 75% or 100% chance of
+          dropping their spellbooks, which have a 25%, 50, 75% or 100% chance of containing
+          any of the memorized spells. Starting a new game won't re-randomise the items,
+          reinstalling the component will.
+          <br><br>
+          Additionally, this component creates a cheat spellbook that contains ALL spells
+          available to players (but still respects the learning rules about forbidden
+          schools et cetera). The spellbook isn't normally available, but can easily be
+          added with the CLUAConsole or a save game editor; the file name is tb#tspel.itm.
+          <br><br>
+          After using the spellbook it is destroyed; spell learning observes the usual rules
+          regarding chance to learn, opposition schools, etc. An unfixable fact is that Sorcerors
+          can use the book (destroying it); however, they won't learn the spells, so you're
+          wasting the spellbook if you attempt to do so.
+          <br><br>
+          It is recommended (but not required) to install SCS or SCSII to ensure that spellbooks
+          actually match what the mages do in-game; otherwise, many enemy mages (both vanilla and
+          from most other difficulty-enhancing mods) <b>WILL</b> have spells in their spellbooks that
+          they would never cast, and vice versa.
+          <br><br>Even with SCS(II), some discrepancies are possible; a notable example is that
+          spells cast via sequencers/contingencies aren't represented in spellbooks (this
+          means that no spellbook will contain Mislead, Project Image or Simulacrum, and certain spells
+          will be statistically under-represented compared to what the mages do); as an exception to
+          that rule, all mages with access to eighth-level spells are assumed to have memorized
+          Spell Immunity (which will thus be available even from mages that don't cast that spell).
+        </div>
+        </p>
+				
+				<address>
+					<span class="address-footer-1">The Bigg Tweak Pack &gt; Components</span>
+					<a href="#top">BACK TO TOP</a>
+				</address>
+			</div>
+
+			<!-- ================== F A Q ================== -->
+			<a name="faq" id="faq"></a>
+			<div>
+				<h4>
+					Frequently Asked Questions
+				</h4>
+				<p>
+					<span class="faq-q">Q: I've found a bug / incompatibility / have a suggestion!</span><br>
+					<span class="faq-a">A: <a href="#contact">Contact us</a> and I'll deal with it
+					as soon as possible.</span>
+					<br>
+					<span class="faq-q">Q: Can I install / uninstall a component mid-game?</span><br>
+					<span class="faq-a">A: Most components of this mod can be safely installed or uninstalled
+          mid-game. Exceptions are as follows:
+          <ul>
+          <li>Imprisonment Fix: you can (un)install the component mid-game, but only
+          if nobody is currently Imprisoned or protected from Imprisonment. Ditto for Petrification Fix.</li>
+          <li>WSPATCK for all: the 'Everybody gets ApR from proficiency, only Warriors from level'
+          option can't be safely installed / uninstalled mid-game.</li>
+          <li>Mages drop spellbooks: the content of spellbooks can change after reinstalling; removing the 
+          component mid-game will remove the spellbooks from your party.</li>
+          </ul>
+       </span>
+					<br>
+					<span class="faq-q">Q: Do you call this a FAQ?</span><br>
+					<span class="faq-a">A: <a href="#contact">Yes. <a href="#contact">Contact me</a> if you want to suggest a new FAQ to add here  :)</span>
+				</p>
+				<address>
+					<span class="address-footer-1">The Bigg Tweak Pack &gt; Frequently Asked
+					Questions</span>       <a href="#top">BACK TO TOP</a>
+				</address>
+			</div>
+
+			<!-- ================== Version History ================== -->
+			<a name="version" id="version"></a>
+			<div>
+				<h4>
+					Version History
+				</h4>
+		<p class="version">
+					Version 2.61:
+		</p>
+		<ul class="version-list">
+			<li>"Only the main character advances over the racial maximum" option broken in Stat Training.</li>
+			<li>Stat Training: added an option to allow anyone to advance just one over the racial maximum (for everyone), without being retroactive.</li>
+			<li>Update dependent software: WeiDU v 231, ToBEx v 22.</li>
+		</ul>
+		<p class="version">
+					Version 2.60:
+		</p>
+		<ul class="version-list">
+			<li>New option added to 'WSPATCK for all'.</li>
+			<li>Edge case in Stat Training fixed via ToBEx.</li>
+			<li>Added an option to get many extra stat points in Stat Training.</li>
+			<li>'Facestab only under Non Detection' can be installed with the Druidic Sorceror.</li>
+			<li>scsII mages will freely cast Imprisonment on CHARNAME if Imprisonment Fix is installed (since it's not an instant game over).</li>
+			<li>3RD Edition Cha will correctly lower prices, rather than increase them.</li>
+			<li>"Ignore limits" in stat training actually works.</li>
+			<li>'Facestab always' installs if ALWAYSBACKSTAB isn't defined in stats.ids.</li>
+			<li>All Facestab ad WSPATCK components distribute ToBEx, rather than manually patching the EXE.</li>
+			<li>Minor performance improvement for some components.</li>
+		</ul>
+		<p class="version">
+					Version 2.50:
+		</p>
+		<ul class="version-list">
+			<li>Updated the German translation.</li>
+      <li>Fixed '@20000 not found' errors.</li>
+      <li>Facestabbing component added.</li>
+		</ul>
+		<p class="version">
+					Version 2.40:
+		</p>
+		<ul class="version-list">
+			<li>Added the 'Gain Stats as you Level Up' component.</li>
+			<!-- <li>Added the 'Trivial Dual Class' component.</li> -->
+			<li>Fix typos and/or errors in the readme.</li>
+      <li>Fixed ugly bug in item-scanning code.</li>
+      <li>Petrification now turns you stony.</li>
+      <li>Use ADD_SCHOOL to avoid possible conflicts with other mods.</li>
+      <li>3rd edition Dex gives bonuses to Save vs. Breath.</li>
+      <li>3rd edition Con gives bonuses to Save vs. Death.</li>
+      <li>New component: 3rd edition Wis (gives bonuses to Save vs. Spell).</li>
+		</ul>
+		
+		<p class="version">
+					Version 2.31:
+		</p>
+		<ul class="version-list">
+			<li>Added the Russian translation.</li>
+			<li>Added the German translation.</li>
+			<li>Give proper CON bonuses (previously it was giving the bonuses for CON - 1).</li>
+		</ul>
+		
+		<p class="version">
+					Version 2.30:
+		</p>
+		<ul class="version-list">
+			<li>Added four components to offer 3rd-edition style progression for strength, dexterity, charisma.</li>
+			<li>Added a component to allow druids to wear helmets, and fighter/druids to wear metal armor (reverting changes by Divine Remix and/or Item Revision).</li>
+		</ul>
+
+		<p class="version">
+					Version 2.20:
+		</p>
+		<ul class="version-list">
+			<li>Occasional bug fixes.</li>
+			<li>Added a component to give WSPATCK bonuses to everybody.</li>
+		</ul>
+
+		<p class="version">
+					Version 2.10:
+		</p>
+		<ul class="version-list">
+			<li>Occasional bug fixes.</li>
+			<li>Added a component to remove all statistical requirements to items.</li>
+			<li>WeiDU 200.</li>
+			<li>The Petrification Fix doesn't make Branwen unjoinable in Tutu/BGT (among other things).</li>
+			<li>Rewritten large parts of the tp2 to use macroes, fixed bugs meanwhile.</li>
+		</ul>
+
+				<p class="version">
+					Version 2.01:
+				</p>
+				<ul class="version-list">
+					<li>Now it may work at all  &gt;_&gt;</li>
+				</ul>
+
+				<p class="version">
+					Version 2:
+				</p>
+				<ul class="version-list">
+					<li>SFX-RAR, auto launches and updates setup-tb#quest.exe, etc.</li>
+					<li>Petrification fix added.</li>
+					<li>Added Convenient Wishes.</li>
+					<li>Added Faster Romances.</li>
+					<li>The Difficulty component uses the same variable as RtW mod.</li>
+					<li>SHS-style readme.</li>
+					<li>Probably some bugfixes.</li>
+				</ul>
+
+				<p class="version">
+					Version 1
+				</p>
+				<ul class="version-list">
+					First version (with Nature's Beauty, Imprisonment, Drop Weapons in Panic, Wishes, and Difficulty).
+				</ul>
+				<address>
+					<span class="address-footer-1">The Bigg Tweak Pack &gt; Version History</span>
+								<a href="#top">BACK TO TOP</a>
+				</address>
+			</div>
+
+			<!-- ================== Credits ================== -->
+			<a name="credits" id="credits"></a>
+			<div>
+				<h4>
+					Credits
+				</h4>
+				<p>
+					This mod was made by the bigg.
+				</p>
+
+				<h5>Big Thanks:</h5>
+
+				<p class="faq-q">
+					The people who made this possible, by creating amazing modding tools:
+				</p>
+				<ul class="version-list">
+					<li>Westley Weimer, for WeiDU and his willingness to constantly improve it.</li>
+					<li>Jon Olav Hauglid, for NearInfinity and... as above :)</li>
+				</ul>
+
+				<p class="faq-q">
+					Modding help:
+				</p>
+				<ul class="version-list">
+					<li>The RtW team had originally devised the mechanism of the Improved Difficulty System.</li>
+          <li>Taimon for the original version of WSPATCK for all.</li>
+          <li>Ascension64 for ToBEx (which recoded WSPATCK for all and made possible the 'facestab' component).</li>
+				</ul>
+
+				<p class="faq-q">
+					Web Issues related thanks:
+				</p>
+				<ul class="version-list">
+					<li>SConrad, for hosting the forum and mirroring.</li>
+					<li>The Wizard for the additional Mirrors!</li>
+				</ul>
+
+				<p class="faq-q">
+					Dedicated to:
+				</p>
+				<ul class="version-list">
+					This mod is dedicated to the memory of Luca Poli, a classmate of mine, who had killed himself on 13 February 2004, Friday.
+				</ul>
+				<address>
+					<span class="address-footer-1">The Bigg Tweak Pack &gt; Credits</span>
+					<a href="#top">BACK TO TOP</a>
+				</address>
+			</div>
+
+			<!-- ================== C O N T A C T   I N F O ================== -->
+			<a name="contact" id="contact"></a>
+			<div>
+				<h4>
+					Contact Info:
+				</h4>
+				<p>
+					I welcome any kind of bug report, incompatibility issue report, suggestion and constructive
+					criticism, and I'll take it in highest consideration - please, keep the trolling to yourself.
+					<br>The method of contacting me I prefer is via
+					<a href="http://forums.spellholdstudios.net/index.php?showforum=252" target="_blank">the forum</a>,
+					since this way all the interested players will be able to contribute their ideas.
+					<br>However, if you prefer to contact only me, this is the e-mail address: </p>
+					<script type="text/javascript">
+						<!--
+								document.write("<p>");
+								mail("thebigg### fuck@off.spammers ###spellholdstudios.net### you.won.t.get@this.one ###The Bigg");
+								document.write("</p>");
+						-->
+					</script>
+				<p>If you turned off JavaScript and didn't see a link above, you'll have to
+				work out the real address by hand (sorry, protecting against spammers is a
+				necessity right now):</p>
+					<p>spellholdstudios.net after the usual symbol, thebigg before.</p>
+				</ul>
+				<address>
+					<span class="address-footer-1">The Bigg Tweak Pack &gt; Contact Info</span>
+					<a href="#top">BACK TO TOP</a>
+				</address>
+			</div>
+
+		</div>
+	<!--<script language="javascript">postamble();</script>-->
+</body></html>

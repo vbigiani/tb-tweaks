@@ -1,0 +1,19 @@
+IF
+  Global("RTWMyDifficulty","global",0)
+  !AreaCheck("AR0602")
+THEN
+    RESPONSE #100
+             CreateCreatureObject("tb#impdi",Player1,1,1,1)
+             SetGlobal("RTWMyDifficulty","global",1)
+             Continue()
+END
+
+IF
+  Global("RTWMyDifficulty","global",0)
+  AreaCheck("AR0602")
+THEN
+    RESPONSE #100
+             CreateCreature("tb#impdi",[3741.2936],3)
+             SetGlobal("RTWMyDifficulty","global",1)
+             Continue()
+END

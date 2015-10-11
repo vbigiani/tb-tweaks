@@ -1,0 +1,32 @@
+	DEFINE_PATCH_MACRO ~tb#impdiff_work~ BEGIN
+		REPLACE_TEXTUALLY ~Difficulty(EASIEST)~ ~Global("RTWMyDifficulty","global",1)~ //checks my var instead of hardcoded difficulty
+		REPLACE_TEXTUALLY ~Difficulty(EASY)~ ~Global("RTWMyDifficulty","global",2)~
+		REPLACE_TEXTUALLY ~Difficulty(NORMAL)~ ~Global("RTWMyDifficulty","global",3)~
+		REPLACE_TEXTUALLY ~Difficulty(HARD)~ ~Global("RTWMyDifficulty","global",4)~
+		REPLACE_TEXTUALLY ~Difficulty(HARDEST)~ ~Global("RTWMyDifficulty","global",5)~
+		REPLACE_TEXTUALLY ~DifficultyGT(EASIEST)~ ~GlobalGT("RTWMyDifficulty","global",1)~
+		REPLACE_TEXTUALLY ~DifficultyGT(EASY)~ ~GlobalGT("RTWMyDifficulty","global",2)~
+		REPLACE_TEXTUALLY ~DifficultyGT(NORMAL)~ ~GlobalGT("RTWMyDifficulty","global",3)~
+		REPLACE_TEXTUALLY ~DifficultyGT(HARD)~ ~GlobalGT("RTWMyDifficulty","global",4)~
+		REPLACE_TEXTUALLY ~DifficultyGT(HARDEST)~ ~GlobalGT("RTWMyDifficulty","global",5)~
+		REPLACE_TEXTUALLY ~DifficultyLT(EASIEST)~ ~GlobalLT("RTWMyDifficulty","global",1)~
+		REPLACE_TEXTUALLY ~DifficultyLT(EASY)~ ~GlobalLT("RTWMyDifficulty","global",2)~
+		REPLACE_TEXTUALLY ~DifficultyLT(NORMAL)~ ~GlobalLT("RTWMyDifficulty","global",3)~
+		REPLACE_TEXTUALLY ~DifficultyLT(HARD)~ ~GlobalLT("RTWMyDifficulty","global",4)~
+		REPLACE_TEXTUALLY ~DifficultyLT(HARDEST)~ ~GlobalLT("RTWMyDifficulty","global",5)~
+	END
+
+COPY_EXISTING_REGEXP GLOB ~.*\.bcs$~ ~override~
+DECOMPILE_BCS_TO_BAF
+	LAUNCH_PATCH_MACRO ~tb#impdiff_work~
+COMPILE_BAF_TO_BCS
+IF ~^1659[234] ~
+BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING_REGEXP GLOB ~.*\.dlg$~ ~override~
+DECOMPILE_DLG_TO_D
+	LAUNCH_PATCH_MACRO ~tb#impdiff_work~
+COMPILE_D_TO_DLG
+IF ~Difficulty\([LG]T\)?~
+BUT_ONLY_IF_IT_CHANGES
+

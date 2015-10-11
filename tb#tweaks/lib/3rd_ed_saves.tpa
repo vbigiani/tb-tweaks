@@ -1,0 +1,72 @@
+SILENT
+MKDIR ~tb#tweaks/prod~
+<<<<<<<< empty
+>>>>>>>>
+
+COPY empty ~tb#tweaks/prod/script.baf~
+
+OUTER_FOR (i = 1; i <= 25; ++i) BEGIN
+  COPY ~tb#tweaks/other/tb#set.spl~ ~override/tb#t3%abbrev%%i%.spl~
+    WRITE_SHORT 0x9a opcode
+    WRITE_LONG 0x9e ((i + offset - 10) / 2)
+    
+  OUTER_SET j = 99 - i  
+    
+  COPY ~tb#tweaks/other/tb#set.spl~ ~override/tb#t3%abbrev%%j%.spl~
+    WRITE_SHORT 0x9a opcode
+    WRITE_LONG 0x9e ((10 - i - offset) / 2)
+    
+    APPEND_OUTER ~tb#tweaks/prod/script.baf~ ~~~~~
+      IF
+        ActionListEmpty()
+        Global("tb#t3%abbrev%","LOCALS",0)
+        CheckStat(Myself,%i%,%short%)
+      THEN
+        RESPONSE #100
+          SetGlobal("tb#t3%abbrev%","LOCALS",%i%)
+          ApplySpellRES("tb#t3%abbrev%%i%",Myself)
+          Continue()
+      END
+
+      IF
+        ActionListEmpty()
+        Global("tb#t3%abbrev%","LOCALS",%i%)
+        !CheckStat(Myself,%i%,%short%)
+      THEN
+        RESPONSE #100
+          SetGlobal("tb#t3%abbrev%","LOCALS",0)
+          ApplySpellRES("tb#t3%abbrev%%j%",Myself)
+          Continue()
+      END
+      ~~~~~
+END
+
+ACTION_FOR_EACH script IN dplayer2 dplayer3 grpsht01 shoutinv useitem wtarsgt wtasight wtatroll wtattwat wtrunsgt wtrunwat BEGIN
+  EXTEND_BOTTOM ~%script%.bcs~ ~tb#tweaks/prod/script.baf~
+END
+
+COPY_EXISTING_REGEXP GLOB ~^.*\.cre$~ ~override~
+  found = 0
+  FOR (iter = 0; iter < 2; ++iter) BEGIN
+    offset = SCRIPT_DEFAULT
+    WHILE (offset >= SCRIPT_OVERRIDE && !found) BEGIN
+      READ_ASCII offset script
+      TO_UPPER script
+      PATCH_IF $done (EVALUATE_BUFFER ~%script%~) STRING_EQUAL_CASE ~%name%~ THEN BEGIN
+        found = 1
+      END ELSE PATCH_IF ~%script%~ STRING_EQUAL_CASE ~none~ || ~%script%~ STRING_EQUAL_CASE ~~ || ~%script%~ STRING_EQUAL_CASE ~ ~ THEN BEGIN
+        offset -= 8
+      END ELSE PATCH_IF iter = 1 BEGIN
+        SPRINT $done (EVALUATE_BUFFER ~%script%~) ~%name%~
+        INNER_ACTION BEGIN
+          EXTEND_BOTTOM ~%script%.bcs~ ~tb#tweaks/prod/script.baf~
+        END
+        found = 1
+      END ELSE BEGIN
+        offset -= 8
+      END
+    END
+  END
+BUT_ONLY
+
+VERBOSE

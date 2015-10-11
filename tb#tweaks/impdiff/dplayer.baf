@@ -1,0 +1,8 @@
+IF
+  HotKey(K)
+THEN
+    RESPONSE #100
+             CreateCreatureObject("tb#impdi",Player1,1,1,1)
+             Continue()
+END
+

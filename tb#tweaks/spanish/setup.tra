@@ -1,0 +1,101 @@
+@500   = ~TB#Tweaks, V 2.61~
+
+@0     = ~Parece que ya tienes este componente instalado, saltandolo...~
+@1     = ~Esto podria tomar algunos minutos, disculpa los inconvenientes...~
+@2     = ~Componente obsoleto~
+@3     = ~Instalando porcion del TOB~
+@4     = ~Saltando porcion del TOB~
+@5     = ~Solo los componentes de SoA+ToB~
+@6     = ~Solo los componentes de SoA.~
+@1000  = ~Ajustar Belleza Natural~
+@2000  = ~Ajustar Encarcelamiento~
+@3000  = ~Ajustar de Carne a Piedra~
+@4000  = ~Remover Dejar Caer Armar durante panico~
+@5000  = ~Deseo Limitado y Deseo en forma ilimitada~
+@5001  = ~Obsoleto. Este componente puede ser encontrado en BG2 Fixpack:
+http://www.gibberlings3.net/bg2fixpack/~
+@6000  = ~Mas Deseos tramposos:~
+@6001  = ~Deseo Conveniente~
+@7000  = ~Deseo Limitado y Deseo reducidos~
+@7001  = ~Deseo Limitado reducido~
+@8000  = ~Dialogos graciosos~
+@8001  = ~Sistema de Dificultades Mejorado~
+@8002  = ~Dialogos Serios (recomendado)~
+@9000  = ~Romances mas rapidos:~
+@9001  = ~Poco~
+@9002  = ~Medio~
+@9003  = ~Mucho~
+@10000 = ~No se requieren estadisticas para los items~
+@11000 = ~WSPATCK para todos (Taimon)~
+@11001 = ~Siempre~
+@11002 = ~Solo para ** y superiores~
+@11003 = ~Todos obtienen ApR de las proeficiencias, solo los guerreros de nivel~
+@11004 = ~El componente requiere Windows para BG2 para funcionar.
+
+Si estas usando GemRB reporta esto y se investigara compatibilidad.
+Si estas usando una Intel Mac Obten la version de Windows de BG2 y correlo usando Wine.
+Si estas usando una PowerPC Mac no podras.
+~
+@11005 = ~Adicion de filas a clab*.2da no implementada; reporta e implementa esto.~
+@11006 = ~No implementado.~
+@11007 = ~Conflicto: %clab%.2da es usado por un kit de guerrero y por otro de no-guerrero; reporta y permite esto.~
+@11008 = ~Archivo CLAB compartido entre clases incompatibles~
+@12000 = ~Estilo de Fuerza de la 3ra edicion~
+@13000 = ~Estilo de Destreza de la 3ra edicion~
+@14000 = ~Estilo de Constitucion de la 3ra edicion~
+@15000 = ~Estilo de Inteligencia de la 3ra edicion~
+@16000 = ~Estilo de Sabiduria de la 3ra edicion~
+@17000 = ~Estilo de Carisma de la 3ra edicion~
+@18000 = ~Los Druidas puede usar items de metal~
+@19000 = ~Ganar habilidades cuando subes de nivel~
+@19001 = ~%_kit% no tiene una modificador de no-cero en %Stat%. Esto no esta permitido (aun). Reporta esto y permitelo.~
+@19002 = ~%_kit% no tiene una modificador de no-cero en %Stat%. Requiere 'Kit Trigger Fix' del ToBEx de Ascension64 (http://bit.ly/i8awTx).~
+@19003 = ~5 puntos para un juego en BGT Completo; NADIE puede subir mas de lo que su raza le permite.~
+@19004 = ~5 puntos para un juego en BGT Completo; SOLO el personaje principal puede subir mas de lo que su raza le permite.~
+@19005 = ~5 puntos para un juego en BGT Completo; TODOS pueden subir mas de lo que su raza les permite.~
+@19006 = ~Un punto cada 4 niveles y un punto por capitulo; Todos pueden subir mas de lo que su raza le permite (@vgur)~
+@19007 = ~5 puntos para un juego en BGT Completo; Todos pueden avanzar un punto sobre lo que su raza le permite ; no retroactivo (Quester).~
+@20000 = ~Dualizar ordinario.~
+@20001 = ~Obsoleto - no funciona aun~
+@21000 = ~El grupo puede apuñalar~
+@21001 = ~Siempre~
+@21002 = ~Solo cuando se este bajo el efecto de No-Deteccion~
+@21003 = ~Requiere 'Configurable Backstab Every Hit' del ToBEx de Ascension64(http://bit.ly/i8awTx)~
+@21004 = ~%SOURCE_EXT% efecto de clonar no esta (aun) soportado. Reporta esto y le daremos soporte.~
+@22000 = ~Los Magos dejan caer sus libros de hechizos.~
+@22001 = ~El 100% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 100% de los conjuros memorizados.~
+@22002 = ~El 100% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 75% de los conjuros memorizados.~
+@22003 = ~El 100% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 50% de los conjuros memorizados.~
+@22004 = ~El 100% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 25% de los conjuros memorizados.~
+@22005 = ~El 75% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 100% de los conjuros memorizados.~
+@22006 = ~El 75% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 75% de los conjuros memorizados.~
+@22007 = ~El 75% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 50% de los conjuros memorizados.~
+@22008 = ~El 75% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 25% de los conjuros memorizados.~
+@22009 = ~El 50% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 100% de los conjuros memorizados.~
+@22010 = ~El 50% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 75% de los conjuros memorizados.~
+@22011 = ~El 50% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 50% de los conjuros memorizados.~
+@22012 = ~El 50% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 25% de los conjuros memorizados.~
+@22013 = ~El 25% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 100% de los conjuros memorizados.~
+@22014 = ~El 25% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 75% de los conjuros memorizados.~
+@22015 = ~El 25% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 50% de los conjuros memorizados.~
+@22016 = ~El 25% de los magos dejan caer sus libros de hechizos, los libros de hechizos contienen el 25% de los conjuros memorizados.~
+
+// in-game strings
+@22100 = ~Un libro de Hechizos~
+@22101 = ~Libro de Hechizos de %name%~
+@22102 = ~Los libros de hechizos contienen conocimientos de la magia de los magos. Si lo usáis aprenderéis (con vuestras probabilidades de fallo) algunos de sus conjuros, antes de ser destruidos. Los Hechiceros pueden usar los libros de hechizos pero no se beneficiarán de ellos (y el libro de hechizos será destruido); Los magos especializados no podrán aprender conjuros de una escuela opuesta a la suya.
+
+Peso: 2
+Usable por:
+ Bardos
+ Cualquier Mago
+~
+@22103 = ~Libro de Hechizos de %name%.  Si lo usáis aprenderéis (con vuestras probabilidades de fallo) estos conjuros antes de ser destruidos:
+___SPELL_LIST___
+Los Hechiceros pueden usar los libros de hechizos pero no se beneficiarán de ellos (y el libro de hechizos será destruido); Los magos especializados no podrán aprender conjuros de una escuela opuesta a la suya.
+
+Peso: 2
+Usable por:
+ Bardos
+ Cualquier Mago
+~

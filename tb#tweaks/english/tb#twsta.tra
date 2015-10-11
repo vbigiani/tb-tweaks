@@ -1,0 +1,26 @@
+@19108 = ~If you see this you're either cheating or experiencing a bug in tb#tweaks.~
+
+@19107 = ~<GABBER> thinks of <HISHER> adventures with you.~
+@19109 = ~Through the hardships of the Life, <HESHE> has been training <HISHER>...~
+@19102 = ~But <HESHE> has also utilized <HISHER>...~
+@19111 = ~...%Stat%.~ // Strength, Dexterity, Constitution, ...
+         ~...%Statf%.~
+@19112 = ~Nothing.~
+
+@19100 = ~Indeed, <HESHE> has trained diligently to improve <HISHER> %Stat%.~
+         ~Indeed, <HESHE> has trained diligently to improve <HISHER> %Statf%.~
+
+@19106 = ~Will that be enough for <HIMHER> to become %comparative%?~ // stronger, more dextrous, healtier, ...
+         ~Will that be enough for <HIMHER> to become %comparativef%?~
+         
+@19105 = ~Yes! <GABBER> is now %comparative%.~
+         ~Yes! <GABBER> is now %comparativef%.~
+
+@19101 = ~No, since <HESHE> already is as %adjective% as possible for a <RACE>.~ // strong, dextrous, healthy, ...
+         ~No, since <HESHE> already is as %adjectivef% as possible for a <RACE>.~
+@19103 = ~<GABBER> is as %adjective% as possible for a <RACE> only because of a magical enchantment, but <HESHE> could still increase <HISHER> natural %Stat%.~
+         ~<GABBER> is as %adjectivef% as possible for a <RACE> only because of a magical enchantment, but <HESHE> could still increase <HISHER> natural %Statf%.~
+@19104 = ~<GABBER> will try again in eight hours, after removing items and spells affecting <HISHER> %Stat%.~
+         ~<GABBER> will try again in eight hours, after removing items and spells affecting <HISHER> %Statf%.~
+
+@19110 = ~<GABBER> returns <HISHER> thoughts to the task at hand.~

@@ -1,0 +1,26 @@
+// Move to 3rd-edition style values
+// HP bonus (for all classes) and fatigue bonus is computed with vanilla 3rd
+// edition rules:
+// bonus = floor((C-10)/2).
+
+// I leave min_roll and regeneration_rate be, since they're not used in 3rd ed.
+
+COPY_EXISTING ~hpconbon.2da~ ~override~
+	COUNT_2DA_ROWS 6 rows
+	FOR (i = 0; i < rows; i += 1) BEGIN
+		PATCH_FOR_EACH j IN 1 2 5 BEGIN
+			SET_2DA_ENTRY_LATER hpconbon i j ((i + 1) / 2 - 5)
+		END
+	END
+	SET_2DA_ENTRIES_NOW hpconbon 6
+	PRETTY_PRINT_2DA
+
+// bonus to Save vs. Death is computed as floor((C-11)/2)
+OUTER_SPRINT name Constitution
+OUTER_SPRINT abbrev c
+OUTER_SPRINT short CON
+OUTER_SET offset = 0 - 1
+OUTER_SET opcode = 0x21
+
+INCLUDE ~tb#tweaks/lib/3rd_ed_saves.tpa~
+  

@@ -1,0 +1,22 @@
+OUTER_SPRINT TOBEX_MOD_DIRECTORY "./tb#tweaks"
+LOAD_TRA "%TOBEX_MOD_DIRECTORY%/TobEx_redist/TobEx.tra"
+ACTION_INCLUDE "%TOBEX_MOD_DIRECTORY%/TobEx_redist/TobEx.tpa"
+
+<<<<<<<< snippet.baf
+IF
+  InParty(Myself)
+  CheckStat(Myself,0,ALWAYSBACKSTAB)
+THEN
+  RESPONSE #100
+    ApplySpellRES("tb#tface",Myself)
+    Continue()
+END
+>>>>>>>>
+
+APPEND ~stats.ids~ ~192 ALWAYSBACKSTAB~
+UNLESS ~ALWAYSBACKSTAB~
+
+COPY ~tb#tweaks/other/tb#tface.spl~ ~override~
+
+EXTEND_BOTTOM ~dplayer2.bcs~ ~snippet.baf~
+EXTEND_BOTTOM ~dplayer3.bcs~ ~snippet.baf~

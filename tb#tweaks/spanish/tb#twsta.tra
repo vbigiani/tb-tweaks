@@ -1,0 +1,26 @@
+@19108 = ~Si estás viendo esto, es que estás usando algún truco o experimentando algún bug en tb#tweaks.~
+
+@19107 = ~<GABBER> cree que <HISHER> tiene algo con vos.~
+@19109 = ~A través de las dificultades de la vida, <HESHE> ha estado entrenándole...~
+@19102 = ~Pero <HESHE> también le ha utilizado...~
+@19111 = ~...%Stat%.~ // Strength, Dexterity, Constitution, ...
+         ~...%Statf%.~
+@19112 = ~Nada.~
+
+@19100 = ~Ciertamente, él ha entrenado diligentemente para mejorar su %Stat%.~
+         ~Ciertamente, ella ha entrenado diligentemente para mejorar su %Statf%.~
+
+@19106 = ~Debería ser suficiente para que él sea %comparative%?~ // stronger, more dextrous, healtier, ...
+         ~Debería ser suficiente para que ella sea %comparativef%?~
+         
+@19105 = ~¡Sí! <GABBER> es ahora %comparative%.~
+         ~¡Sí! <GABBER> es ahora %comparativef%.~
+
+@19101 = ~No, desde que <HESHE> es tan %adjective% como le es posible a un <RACE>.~ // strong, dextrous, healthy, ...
+         ~No, desde que <HESHE> es tan %adjectivef% como le es posible a una <RACE>.~
+@19103 = ~<GABBER> es tan %adjective% como le es posible a un <RACE> sólo por un encantamiento, pero <HESHE> podría incrementar su %Stat% natural.~
+         ~<GABBER> es tan %adjective% como le es posible a una <RACE> sólo por un encantamiento, pero <HESHE> podría incrementar su %Statf% natural.~
+@19104 = ~<GABBER> lo intentará nuevamente dentro de ocho horas, luego de quitarse los ítems y desaparezcan los efectos de los hechizos que le estén afectando %Stat%.~
+         ~<GABBER> lo intentará nuevamente dentro de ocho horas, luego de quitarse los ítems y desaparezcan los efectos de los hechizos que le estén afectando %Statf%.~
+
+@19110 = ~<GABBER> vuelve a <HISHER> pensando la tarea en cuestión.~

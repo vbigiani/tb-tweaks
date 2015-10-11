@@ -1,0 +1,6 @@
+IF
+  Global("RTWMyDifficulty","global",0)
+THEN
+    RESPONSE #100
+             ActionOverride(Player1,StartDialog("player1",Player1))
+END

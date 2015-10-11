@@ -1,0 +1,760 @@
+BACKUP ~tb#tweaks/backup~
+AUTHOR ~thebigg@spellholdstudios.net~
+
+ASK_EVERY_COMPONENT
+NO_IF_EVAL_BUG
+LOAD ~tb#fix_file_size~
+
+// MODDER setup_tra none
+
+VERSION @500
+README ~tb#tweaks/readme-TB#Tweaks-%LANGUAGE%.htm~ ~tb#tweaks/README-TB#Tweaks.htm~
+
+AUTO_TRA ~tb#tweaks/%s~
+
+// ASK_EVERY_COMPONENT
+
+ALWAYS
+	OUTER_SET tb#fix_file_size_min = 0x72
+	OUTER_SPRINT tb#fix_file_size_target "SW1H01.ITM"
+	OUTER_SPRINT tb#fix_file_size_category "items"
+	OUTER_SPRINT tb#fix_file_size_regexp "^.*\.itm$"
+	LAUNCH_ACTION_MACRO ~tb#fix_file_size~
+	
+	OUTER_SET tb#fix_file_size_min = 0x72
+	OUTER_SPRINT tb#fix_file_size_target "SPWI101.SPL"
+	OUTER_SPRINT tb#fix_file_size_category "spells"
+	OUTER_SPRINT tb#fix_file_size_regexp "^.*\.spl$"
+	LAUNCH_ACTION_MACRO ~tb#fix_file_size~
+	
+	OUTER_SET tb#fix_file_size_min = 0x2d4
+	OUTER_SPRINT tb#fix_file_size_target "AATAQAH.CRE"
+	OUTER_SPRINT tb#fix_file_size_category "creatures"
+	OUTER_SPRINT tb#fix_file_size_regexp "^.*\.cre$"
+	LAUNCH_ACTION_MACRO ~tb#fix_file_size~
+END  //ALWAYS
+
+LANGUAGE ~English~
+	 ~English~
+	 ~tb#tweaks/English/setup.tra~
+
+LANGUAGE ~Russian by Alexey Marshalko aka Prowler~
+	 ~Russian~
+	 ~tb#tweaks/Russian/setup.tra~
+
+LANGUAGE ~German by Drogan Di'Umptu and Leonardo Watson~
+	 ~German~
+	 ~tb#tweaks/German/setup.tra~
+
+LANGUAGE ~Spanish by Lisandro~
+	 ~spanish~
+	 ~tb#tweaks/spanish/setup.tra~
+
+
+// deprecated placeholders
+
+// Nature's Beauty
+BEGIN @2
+DEPRECATED @2
+
+// Imprisonment
+BEGIN @2
+DEPRECATED @2
+
+// DWIP
+BEGIN @2
+DEPRECATED @2
+
+// DWIP + Impri
+BEGIN @2
+DEPRECATED @2
+
+// Unli Wish
+BEGIN @2
+DEPRECATED @2
+
+// Cheesy Wish
+BEGIN @2
+DEPRECATED @2
+
+// Improved Difficulty
+BEGIN @2
+DEPRECATED @2
+
+
+/* ****************************************
+            NATURAL BEAUTY
+**************************************** */
+
+BEGIN @1000   //natural beauty
+DESIGNATED 100
+
+UNINSTALL "setup-mazzythepaladin.tp2" 3
+UNINSTALL ~setup-tb#pack.tp2~ 1
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#natbe.txt~
+//this file will help other mods detect if component is installed.
+
+COPY_EXISTING "sppr704.spl" "override"
+READ_LONG 0x64 "headoffset" ELSE 0
+READ_SHORT 0x68 "headcount" ELSE 0
+READ_LONG 0x6a "effectsoffset" ELSE 0
+WHILE ("%headcount%" > 0) BEGIN
+   READ_SHORT ("%headoffset%" + (("%headcount%" - 1 ) * 0x28) + 0x1e) "count" ELSE 0
+   READ_SHORT ("%headoffset%" + (("%headcount%" - 1 ) * 0x28) + 0x20) "effectsindex" ELSE 0
+   WHILE ("%count%" >0) BEGIN
+      READ_SHORT ("%effectsoffset%" + ("%effectsindex%" + "%count%" - 1 )* 0x30) "OPcode" ELSE 0
+      PATCH_IF ((("%OPcode%" = 142) OR ("%OPcode%" = 74))) BEGIN    //if it's blindness or Display Portait Icon
+      	    WRITE_BYTE (0x0c +"%effectsoffset%" + (("%effectsindex%" + "%count%" - 1 )* 0x30)) 0   //Duration type = Instant/duration
+      	    WRITE_LONG (0x0e + "%effectsoffset%" + (("%effectsindex%" + "%count%" - 1 )* 0x30)) 2400   //Time = 8 hours
+      END
+      SET "count" = ("%count%" -1)
+   END
+   SET "headcount" = "%headcount%" - 1
+END
+
+
+
+
+/* ****************************************
+           IMPRISONMENT FIX
+**************************************** */
+
+BEGIN @2000        //Imprisonment
+DESIGNATED 150
+
+UNINSTALL "setup-mazzythepaladin.tp2" 1
+UNINSTALL "setup-ztb#pack.tp2" 0
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#impri.txt~
+
+COPY ~tb#tweaks/imprisonment~ ~override~
+
+COPY_EXISTING ~intmod.2da~ ~override~
+  SET_2DA_ENTRY 25 5 6 1
+  SET_2DA_ENTRY 25 4 6 6000
+
+
+
+OUTER_SPRINT long imprisonment
+OUTER_SPRINT medium impri
+OUTER_SPRINT short spwi917
+INCLUDE ~tb#tweaks/lib/baldur_baf_hack.tpa~
+
+PRINT @1
+
+OUTER_SPRINT which ~impri~
+
+COPY_EXISTING_REGEXP GLOB ~.*\.spl~ ~override~
+      ~.*\.itm~ ~override~
+	PATCH_INCLUDE ~tb#tweaks/lib/scan_spl.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
+	PATCH_INCLUDE ~tb#tweaks/lib/scan_cre.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+
+COPY_EXISTING_REGEXP GLOB ~.*\.eff~ ~override~
+	SET start = 0
+	PATCH_INCLUDE ~tb#tweaks/lib/patch_eff_%which%.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+ADD_SCHOOL ~tb#imprisonment~ ~Freed~
+
+COPY_EXISTING ~tb#impri.spl~ ~override~
+  WRITE_SHORT 0x25 tb#imprisonment
+
+ACTION_IF (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6150) || (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6151) || (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6152) THEN BEGIN  
+  COPY_EXISTING_REGEXP GLOB ~.*\.bcs~ ~override~
+    DECOMPILE_BCS_TO_BAF
+      REPLACE_TEXTUALLY EXACT_MATCH ~Global("DMWWImprisonPlayer","GLOBAL",1)~ ~True()~
+      REPLACE_TEXTUALLY EXACT_MATCH ~Global("DMWWImprisonPlayer","GLOBAL",0)~ ~False()~
+    COMPILE_BAF_TO_BCS
+  IF ~DMWWImprisonPlayer~
+  BUT_ONLY
+END
+  
+
+
+/* ****************************************
+           PETRIFICATION FIX
+**************************************** */
+
+BEGIN @3000
+DESIGNATED 200
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#petri.txt~
+
+OUTER_SPRINT long petrification
+OUTER_SPRINT medium petri
+OUTER_SPRINT short tb#unpet
+
+PRINT @1
+
+OUTER_SPRINT which petri
+
+COPY_EXISTING_REGEXP GLOB ~.*\.spl~ ~override~
+      ~.*\.itm~ ~override~
+	PATCH_INCLUDE ~tb#tweaks/lib/scan_spl.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
+	PATCH_INCLUDE ~tb#tweaks/lib/scan_cre.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+
+COPY_EXISTING_REGEXP GLOB ~.*\.eff~ ~override~
+	SET start = 0
+	PATCH_INCLUDE ~tb#tweaks/lib/patch_eff_%which%.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+// must be copied after, if we don't want to break stone to flesh
+COPY ~tb#tweaks/petrification~ ~override~
+
+ADD_SCHOOL ~tb#petrification~ ~Stone to Flesh~
+
+COPY_EXISTING ~tb#petri.spl~ ~override~
+  WRITE_SHORT 0x25 tb#petrification
+
+COPY_EXISTING ~tb#depet.spl~ ~override~
+  WRITE_LONG 162 tb#petrification
+
+INCLUDE ~tb#tweaks/lib/baldur_baf_hack.tpa~
+
+
+/* ****************************************
+           DROP WEAPONS IN PANIC
+**************************************** */
+
+BEGIN @4000           //Drop Weapons in Panic
+DESIGNATED 300
+
+UNINSTALL "setup-mazzythepaladin.tp2" 2
+UNINSTALL "setup-ztb#pack.tp2" 1
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#dropw.txt~
+SET "itemdone" = 0
+//this file will help other mods detect if component is installed.
+
+PRINT @1
+
+OUTER_SPRINT which drop
+
+COPY_EXISTING_REGEXP GLOB ~.*\.spl~ ~override~
+      ~.*\.itm~ ~override~
+	PATCH_INCLUDE ~tb#tweaks/lib/scan_spl.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING_REGEXP GLOB ~.*\.cre~ ~override~
+	PATCH_INCLUDE ~tb#tweaks/lib/scan_cre.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+
+COPY_EXISTING_REGEXP GLOB ~.*\.eff~ ~override~
+	SET start = 0
+	PATCH_INCLUDE ~tb#tweaks/lib/patch_eff_%which%.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+
+
+
+/* ****************************************
+           WISHES FIX
+**************************************** */
+
+BEGIN @5000
+DESIGNATED 1000
+DEPRECATED @5001
+
+
+
+/* ****************************************
+           CONVENIENT WISHES
+**************************************** */
+
+BEGIN @6001
+DESIGNATED 1200
+SUBCOMPONENT @6000
+REQUIRE_FILE ~data/25spells.bif~ @5
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#convenientwish.txt~
+COMPILE ~tb#tweaks/wish/convtob.d~
+
+
+
+
+/* ****************************************
+           CHEESY WISHES - TOB
+**************************************** */
+
+BEGIN @7000
+DESIGNATED 1250
+SUBCOMPONENT @6000
+REQUIRE_FILE ~data/25spells.bif~ @5
+UNINSTALL "setup-ztb#pack.tp2" 4
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#cheesywish.txt~
+
+COMPILE ~tb#tweaks/wish/cheesytob.d~
+
+
+
+
+/* ****************************************
+           CHEESY WISHES - SOA
+**************************************** */
+
+BEGIN @7001
+DESIGNATED 1400
+FORBID_FILE ~data/25spells.bif~ @6
+UNINSTALL "setup-ztb#pack.tp2" 4
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#cheesywish.txt~
+
+COMPILE ~tb#tweaks/wish/cheesysoa.d~
+
+
+
+/* ****************************************
+           IMPROVED DIFFICULTY SYSTEM
+**************************************** */
+
+BEGIN @8000
+DESIGNATED 2000
+SUBCOMPONENT @8001
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#impdiff.txt~
+
+COMPILE ~tb#tweaks/impdiff/impdiff.d~  //dialogue for the talker, adjust all dialogue
+
+COPY ~tb#tweaks/impdiff/kylie.cre~ ~override/tb#impdi.cre~
+	SAY NAME1 ~Ggib Eht~
+	SAY NAME2 ~Ggib Eht~
+	WRITE_ASCII 0x248 ~SHOUTDLG~ #8
+	WRITE_ASCII 0x268 ~~ #8
+	WRITE_ASCII 0x2cc ~TB#DIFF~ #8
+
+EXTEND_TOP "baldur.bcs" ~tb#tweaks/impdiff/start.baf~  // spawn Ggib if difficulty level isn't set.
+ACTION_IF FILE_EXISTS_IN_GAME ~baldur25.bcs~ THEN BEGIN
+EXTEND_TOP "baldur25.bcs" ~tb#tweaks/impdiff/start.baf~
+END
+EXTEND_TOP "dplayer3.bcs" ~tb#tweaks/impdiff/dplayer.baf~ // spawn Ggib if stroke K.
+INCLUDE ~tb#tweaks/lib/impdiff.tpa~
+
+
+BEGIN @8002
+DESIGNATED 2050
+SUBCOMPONENT @8001
+
+COPY_EXISTING ~sw1h01.itm~ ~override/tb#impdiff.txt~
+
+COMPILE ~tb#tweaks/impdiff/impdiff_serious.d~  //dialogue for the talker, adjust all dialogue
+
+EXTEND_TOP "baldur.bcs" ~tb#tweaks/impdiff/start_serious.baf~  // spawn Ggib if difficulty level isn't set.
+ACTION_IF FILE_EXISTS_IN_GAME ~baldur25.bcs~ THEN BEGIN
+EXTEND_TOP "baldur25.bcs" ~tb#tweaks/impdiff/start_serious.baf~
+END
+EXTEND_TOP "dplayer3.bcs" ~tb#tweaks/impdiff/dplayer_serious.baf~ // spawn Ggib if stroke K.
+INCLUDE ~tb#tweaks/lib/impdiff.tpa~
+
+
+
+
+
+/* ****************************************
+           FASTER ROMANCES
+**************************************** */
+/* RealSetGlobalTimer(_,_,x) is changed to be
+multiply * x ^ (exponentiation / nth_root) / divide 
+(but only if the value decreases).
+
+Values for multiply, exponentiation, nth_root and divide are computated 
+thanks to an external program written in C, included in the mod distribution,
+see the file other/compute_faster_romance.c .
+If you want me to add different pairs (not necessarily 3600->x and 36000->x),
+it can be done fairly trivially, so ask away. (you can even compile and run
+the 'compute_faster_romance' program yourself to find out the values yourself).
+*/
+
+BEGIN @9001
+SUBCOMPONENT @9000
+DESIGNATED 2500
+// 3600  -> 3300
+// 36000 -> 18000
+
+OUTER_SET multiply = 7975
+OUTER_SET divide = 1000
+OUTER_SET exponentiation = 736
+OUTER_SET nth_root = 1000
+
+INCLUDE ~tb#tweaks/lib/romances.tpa~
+
+BEGIN @9002
+SUBCOMPONENT @9000
+DESIGNATED 2550
+// 3600  -> 3000
+// 36000 -> 12000
+
+OUTER_SET multiply = 21689
+OUTER_SET divide = 999
+OUTER_SET exponentiation = 602
+OUTER_SET nth_root = 1000
+
+INCLUDE ~tb#tweaks/lib/romances.tpa~
+
+BEGIN @9003
+SUBCOMPONENT @9000
+DESIGNATED 2600
+// 3600  -> 2700
+// 36000 -> 9000
+
+OUTER_SET multiply = 37581
+OUTER_SET divide = 1002
+OUTER_SET exponentiation = 523
+OUTER_SET nth_root = 1001
+
+INCLUDE ~tb#tweaks/lib/romances.tpa~
+
+
+/* ****************************************
+           NO ITEM STATS REQUIREMENTS
+**************************************** */
+BEGIN @10000
+DESIGNATED 3000
+COPY_EXISTING_REGEXP GLOB ~.*\.itm~ ~override~
+	WRITE_BYTE 0x26 0
+	WRITE_BYTE 0x28 0
+	WRITE_BYTE 0x2a 0
+	WRITE_BYTE 0x2c 0
+	WRITE_BYTE 0x2e 0
+	WRITE_BYTE 0x30 0
+	WRITE_BYTE 0x32 0
+BUT_ONLY_IF_IT_CHANGES
+
+
+/* ****************************************
+           WSPATCK FOR EVERYBODY
+**************************************** */
+BEGIN @11001
+DESIGNATED 3500
+SUBCOMPONENT @11000
+REQUIRE_FILE ~bgmain.exe~ @11004
+INCLUDE ~tb#tweaks/lib/do_wspatck.tpa~
+
+BEGIN @11002
+SUBCOMPONENT @11000
+DESIGNATED 3550
+REQUIRE_FILE ~bgmain.exe~ @11004
+INCLUDE ~tb#tweaks/lib/do_wspatck.tpa~
+
+COPY_EXISTING ~WSPATCK.2DA~ ~override~
+	COUNT_2DA_COLS col_num
+	FOR (i = 1; i < col_num; i+=1) BEGIN
+		SET_2DA_ENTRY_LATER wspatck 0 i 0
+		SET_2DA_ENTRY_LATER wspatck 1 i 0
+	END
+	SET_2DA_ENTRIES_NOW wspatck col_num
+	PRETTY_PRINT_2DA
+BUT_ONLY
+
+
+BEGIN @11003
+SUBCOMPONENT @11000
+DESIGNATED 3600
+REQUIRE_FILE ~bgmain.exe~ @11004
+INCLUDE ~tb#tweaks/lib/do_wspatck.tpa~
+INCLUDE ~tb#tweaks/lib/no_apr_from_level.tpa~
+
+
+/* ****************************************
+           3RD EDITION STYLE STR
+**************************************** */
+BEGIN @12000
+DESIGNATED 4000
+INCLUDE ~tb#tweaks/lib/3rd_ed_str.tpa~
+
+
+
+
+/* ****************************************
+           3RD EDITION STYLE DEX
+**************************************** */
+BEGIN @13000
+DESIGNATED 4500
+INCLUDE ~tb#tweaks/lib/3rd_ed_dex.tpa~
+
+
+
+
+/* ****************************************
+           3RD EDITION STYLE CON
+**************************************** */
+BEGIN @14000
+DESIGNATED 5000
+INCLUDE ~tb#tweaks/lib/3rd_ed_con.tpa~
+
+
+
+
+
+/* ****************************************
+           3RD EDITION STYLE INT
+**************************************** */
+BEGIN @15000
+DESIGNATED 5500
+DEPRECATED @2
+INCLUDE ~tb#tweaks/lib/3rd_ed_int.tpa~
+
+
+
+
+
+
+/* ****************************************
+           3RD EDITION STYLE WIS
+**************************************** */
+BEGIN @16000
+DESIGNATED 6000
+INCLUDE ~tb#tweaks/lib/3rd_ed_wis.tpa~
+
+
+
+
+
+
+/* ****************************************
+           3RD EDITION STYLE CHA
+**************************************** */
+BEGIN @17000
+DESIGNATED 6500
+INCLUDE ~tb#tweaks/lib/3rd_ed_cha.tpa~
+
+
+
+
+
+/* ****************************************
+           DRUIDS CAN USE METAL
+**************************************** */
+BEGIN @18000
+DESIGNATED 7000
+INCLUDE ~tb#tweaks/lib/druids_and_metal.tpa~
+
+
+
+
+
+/* ****************************************
+           STAT TRAINING
+**************************************** */
+BEGIN @19003
+SUBCOMPONENT @19000
+DESIGNATED 7500
+OUTER_SPRINT ~grace~ ~False()~
+OUTER_SET ~custom_modifier~ = 0
+OUTER_SPRINT ~non_retroactive~ ~False()~
+INCLUDE ~tb#tweaks/lib/stat_training_init.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training_basic.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training.tpa~
+
+BEGIN @19004
+SUBCOMPONENT @19000
+DESIGNATED 7550
+OUTER_SPRINT grace ~InPartySlot(LastTalkedToBy,0)~
+OUTER_SPRINT ~non_retroactive~ ~False()~
+OUTER_SET ~custom_modifier~ = 0
+INCLUDE ~tb#tweaks/lib/stat_training_init.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training_basic.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training.tpa~
+
+BEGIN @19005
+SUBCOMPONENT @19000
+DESIGNATED 7600
+OUTER_SPRINT ~grace~ ~True()~
+OUTER_SPRINT ~non_retroactive~ ~False()~
+OUTER_SET ~custom_modifier~ = 0
+INCLUDE ~tb#tweaks/lib/stat_training_init.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training_basic.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training.tpa~
+
+BEGIN @19006
+SUBCOMPONENT @19000
+DESIGNATED 7650
+OUTER_SPRINT ~grace~ ~True()~
+OUTER_SPRINT ~non_retroactive~ ~False()~
+OUTER_SET ~custom_modifier~ = 0
+INCLUDE ~tb#tweaks/lib/stat_training_init.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training_lots.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training.tpa~
+
+BEGIN @19007
+SUBCOMPONENT @19000
+DESIGNATED 7675
+OUTER_SPRINT ~grace~ ~False()~
+OUTER_SPRINT ~non_retroactive~ ~True()~
+OUTER_SET ~custom_modifier~ = 1
+INCLUDE ~tb#tweaks/lib/stat_training_init.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training_basic.tpa~
+INCLUDE ~tb#tweaks/lib/stat_training.tpa~
+
+
+/* ****************************************
+           TRIVIAL DUAL-CLASS
+**************************************** */
+BEGIN @20000
+DESIGNATED 8000
+DEPRECATED @200001
+INCLUDE ~tb#tweaks/lib/do_dualclass.tpa~
+
+
+
+
+/* ****************************************
+           FACESTABBING
+**************************************** */
+BEGIN @21001
+DESIGNATED 8500
+SUBCOMPONENT @21000
+REQUIRE_FILE ~bgmain.exe~ @11004
+INCLUDE ~tb#tweaks/lib/facestab_always.tpa~
+
+BEGIN @21002
+DESIGNATED 8550
+SUBCOMPONENT @21000
+REQUIRE_FILE ~bgmain.exe~ @11004
+INCLUDE ~tb#tweaks/lib/facestab_non_detection.tpa~
+
+
+
+
+/* ****************************************
+           SPELLBOOKS
+**************************************** */
+BEGIN @22001
+DESIGNATED 9000
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 100
+OUTER_SET spell_chance = 100
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22002
+DESIGNATED 9010
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 100
+OUTER_SET spell_chance = 75
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22003
+DESIGNATED 9020
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 100
+OUTER_SET spell_chance = 50
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22004
+DESIGNATED 9030
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 100
+OUTER_SET spell_chance = 25
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22005
+DESIGNATED 9040
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 75
+OUTER_SET spell_chance = 100
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22006
+DESIGNATED 9050
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 75
+OUTER_SET spell_chance = 75
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22007
+DESIGNATED 9060
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 75
+OUTER_SET spell_chance = 50
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22008
+DESIGNATED 9070
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 75
+OUTER_SET spell_chance = 25
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22009
+DESIGNATED 9080
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 50
+OUTER_SET spell_chance = 100
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22010
+DESIGNATED 9090
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 50
+OUTER_SET spell_chance = 75
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22011
+DESIGNATED 9100
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 50
+OUTER_SET spell_chance = 50
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22012
+DESIGNATED 9110
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 50
+OUTER_SET spell_chance = 25
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22013
+DESIGNATED 9120
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 25
+OUTER_SET spell_chance = 100
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22014
+DESIGNATED 9130
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 25
+OUTER_SET spell_chance = 75
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22015
+DESIGNATED 9140
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 25
+OUTER_SET spell_chance = 50
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~
+
+BEGIN @22016
+DESIGNATED 9150
+SUBCOMPONENT @22000
+REQUIRE_FILE ~bgmain.exe~ @11004
+OUTER_SET drop_chance = 25
+OUTER_SET spell_chance = 25
+INCLUDE ~tb#tweaks/lib/spellbooks.tpa~

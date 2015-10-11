@@ -1,0 +1,6 @@
+COPY_EXISTING ~chrmodst.2da~ ~override~
+	FOR(i = 10; i < 26; i+=1) BEGIN
+		SET_2DA_ENTRY_LATER chrmodst 0 i (5 * (10 - i) / 2)
+	END
+	SET_2DA_ENTRIES_NOW chrmodst 26
+	PRETTY_PRINT_2DA

@@ -1,0 +1,9 @@
+// bonus to Save vs. Spell is computed as floor((W-10)/2)
+
+OUTER_SPRINT name Wisdom
+OUTER_SPRINT abbrev w
+OUTER_SPRINT short WIS
+OUTER_SET offset = 0
+OUTER_SET opcode = 0x25
+
+INCLUDE ~tb#tweaks/lib/3rd_ed_saves.tpa~

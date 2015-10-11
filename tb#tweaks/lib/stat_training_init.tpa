@@ -1,0 +1,318 @@
+<<<<<<<< empty
+>>>>>>>>
+
+<<<<<<<< kit_lookup.2da
+MAGE	CLASS
+FIGHTER	CLASS
+CLERIC	CLASS
+THIEF	CLASS
+BARD	CLASS
+PALADIN	CLASS
+DRUID	CLASS
+RANGER	CLASS
+FIGHTER_MAGE	CLASS
+FIGHTER_CLERIC	CLASS
+FIGHTER_THIEF	CLASS
+FIGHTER_MAGE_THIEF	CLASS
+MAGE_THIEF	CLASS
+CLERIC_MAGE	CLASS
+CLERIC_THIEF	CLASS
+FIGHTER_DRUID	CLASS
+FIGHTER_MAGE_CLERIC	CLASS
+CLERIC_RANGER	CLASS
+ABJURER	MAGESCHOOL_ABJURER
+CONJURER	MAGESCHOOL_CONJURER
+DIVINER	MAGESCHOOL_DIVINER
+ENCHANTER	MAGESCHOOL_ENCHANTER
+ILLUSIONIST	MAGESCHOOL_ILLUSIONIST
+INVOKER	MAGESCHOOL_INVOKER
+NECROMANCER	MAGESCHOOL_NECROMANCER
+TRANSMUTER	MAGESCHOOL_TRANSMUTER
+BERSERKER	BERSERKER
+WIZARD_SLAYER	WIZARDSLAYER
+KENSAI	KENSAI
+CAVALIER	CAVALIER
+INQUISITOR	INQUISITOR
+UNDEAD_HUNTER	UNDEADHUNTER
+FERALAN	FERALAN
+STALKER	STALKER
+BEASTMASTER	BEASTMASTER
+ASSASIN	ASSASIN
+BOUNTY_HUNTER	BOUNTYHUNTER
+SWASHBUCKLER	SWASHBUCKLER
+BLADE	BLADE
+JESTER	JESTER
+SKALD	SKALD
+TOTEMIC_DRUID	TOTEMIC
+SHAPESHIFTER	SHAPESHIFTER
+BEAST_FRIEND	BEASTFRIEND
+TALOS	GODTALOS
+HELM	GODHELM
+LATHANDER	GODLATHANDER
+SORCERER	CLASS
+MONK	CLASS
+BARBARIAN	FORBIDDEN
+WILDMAGE	FORBIDDEN
+>>>>>>>>
+
+INCLUDE ~tb#tweaks/%LANGUAGE%/stats.tpa~
+
+
+<<<<<<<< stat-section.d
+IF ~~ THEN BEGIN %STA%
+SAY %AT_19100%
+IF ~~ THEN GOTO %STA%_HUMAN
+ADD_A_RACEEND
+
+IF ~~ THEN BEGIN %STA%_at_max
+SAY %AT_19101%
+= %AT_19102%
+IF ~~ THEN REPLY %AT_19103% DO ~SetGlobalTimer("tb#twstattimer","LOCALS",2400) IncrementGlobal("tb#twstatcounter","LOCALS",-2) UNDISABLE_STAT~ GOTO %STA%_Wait
+COPY_TRANS SAFE tb#twsta Ask
+END
+
+IF ~~ THEN BEGIN ~%STA%_Wait~
+SAY %AT_19104%
+IF ~~ THEN DO ~UNDISABLE_STAT~ EXIT
+END
+
+IF ~~ THEN BEGIN %STA%_Done
+SAY %AT_19105%
+IF ~~ THEN DO ~ApplySpellRES("tb#tws%index%",Myself)~ GOTO End
+END
+
+>>>>>>>>
+
+<<<<<<<< race-section.d
+IF ~~ THEN BEGIN %STA%_%RACE%
+SAY %AT_19106%
+IF ~~ THEN GOTO %STA%_Done
+IF ~!CheckStatLT(Myself,%race_max%,%STA%)~ THEN GOTO %STA%_at_max
+ADD_A_KITIF ~%grace% !CheckStatGT(Myself,24,%STA%)~ THEN GOTO %STA%_Done
+END
+
+>>>>>>>>
+
+<<<<<<<< otherStart.d
+IF ~Global("tb#twstat%name%","LOCALS",1)~ THEN BEGIN Start%name%
+SAY %AT_19107%
+IF ~~ THEN DO ~IncrementGlobal("tb#twstat%name%","LOCALS",1) UNDISABLE_STAT~ GOTO Ask
+END
+
+>>>>>>>>
+
+<<<<<<<< tb#twsta.d
+IF ~OR(%thresholds%) ADD_THRESHOLD~ THEN BEGIN Start
+SAY %AT_19107%
+IF ~~ THEN DO ~IncrementGlobal("tb#twstatcounter","LOCALS",1) UNDISABLE_STAT~ GOTO Ask
+END
+
+IF ~True()~ THEN BEGIN Cheat
+SAY %AT_19108%
+IF ~~ THEN EXIT
+END
+
+IF ~~ THEN BEGIN Ask
+SAY %AT_19109%
+ADD_A_STATIF ~~ THEN REPLY %AT_19112% GOTO End
+END
+
+IF ~~ THEN BEGIN End
+SAY %AT_19110%
+IF ~~ THEN DO ~UNDISABLE_STAT~ EXIT
+END
+
+>>>>>>>>
+
+<<<<<<<< xp.baf
+IF
+	%non_retroactive%
+	Global("tb#twstatInit","LOCALS",0)
+	XPGT(Myself,%threshold%)
+	GlobalLT("tb#twstatcounter","LOCALS",%counter%)
+	!GlobalTimerNotExpired("tb#twstattimer","LOCALS")
+	InParty(Myself)
+	!CombatCounterGT(0)
+	!StateCheck(Myself,CD_STATE_NOTVALID)
+  ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobal("tb#twstatcounter","LOCALS",%counter%)
+		IncrementGlobal("tb#twstatcounter","LOCALS",1)
+END
+
+IF
+	XPGT(Myself,%threshold%)
+	GlobalLT("tb#twstatcounter","LOCALS",%counter%)
+	!GlobalTimerNotExpired("tb#twstattimer","LOCALS")
+	InParty(Myself)
+	!CombatCounterGT(0)
+	!StateCheck(Myself,CD_STATE_NOTVALID)
+  ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobalTimer("tb#twstattimer","LOCALS",5)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("tb#twstatcounter","LOCALS",%counter%)
+		StartDialogOverride("TB#TWSTA",Myself)
+		SetInterrupt(TRUE)
+END
+
+>>>>>>>>
+
+<<<<<<<< level.baf
+IF
+	%non_retroactive%
+	Global("tb#twstatInit","LOCALS",0)
+	LevelGT(Myself,%threshold%)
+	GlobalLT("tb#twstatcounter","LOCALS",%counter%)
+	!GlobalTimerNotExpired("tb#twstattimer","LOCALS")
+	InParty(Myself)
+	!CombatCounterGT(0)
+	!StateCheck(Myself,CD_STATE_NOTVALID)
+  ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobal("tb#twstatcounter","LOCALS",%counter%)
+		IncrementGlobal("tb#twstatcounter","LOCALS",1)
+END
+
+IF
+	LevelGT(Myself,%threshold%)
+	GlobalLT("tb#twstatcounter","LOCALS",%counter%)
+	!GlobalTimerNotExpired("tb#twstattimer","LOCALS")
+	InParty(Myself)
+	!CombatCounterGT(0)
+	!StateCheck(Myself,CD_STATE_NOTVALID)
+  ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobalTimer("tb#twstattimer","LOCALS",5)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("tb#twstatcounter","LOCALS",%counter%)
+		StartDialogOverride("TB#TWSTA",Myself)
+		SetInterrupt(TRUE)
+END
+
+>>>>>>>>
+
+<<<<<<<< other.baf
+IF
+	%non_retroactive%
+	Global("tb#twstatInit","LOCALS",0)
+	%condition%
+	Global("tb#twstat%name%","LOCALS",0)
+	!GlobalTimerNotExpired("tb#twstattimer","LOCALS")
+	InParty(Myself)
+	!CombatCounterGT(0)
+	!StateCheck(Myself,CD_STATE_NOTVALID)
+  ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobal("tb#twstat%name%","LOCALS",2)
+END
+
+IF
+	%condition%
+	Global("tb#twstat%name%","LOCALS",0)
+	!GlobalTimerNotExpired("tb#twstattimer","LOCALS")
+	InParty(Myself)
+	!CombatCounterGT(0)
+	!StateCheck(Myself,CD_STATE_NOTVALID)
+  ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobalTimer("tb#twstattimer","LOCALS",5)
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("tb#twstat%name%","LOCALS",1)
+		StartDialogOverride("TB#TWSTA",Myself)
+		SetInterrupt(TRUE)
+END
+
+>>>>>>>>
+
+<<<<<<<< init.baf
+IF
+	%non_retroactive%
+	Global("tb#twstatInit","LOCALS",0)
+	InParty(Myself)
+	!CombatCounterGT(0)
+	!StateCheck(Myself,CD_STATE_NOTVALID)
+  ActionListEmpty()
+THEN
+	RESPONSE #100
+		SetGlobal("tb#twstatInit","LOCALS",1)
+END
+
+>>>>>>>>
+
+COPY_EXISTING ~abclsmod.2da~ ~override~
+	READ_2DA_ENTRIES_NOW ~class_modifiers~ 7
+BUT_ONLY
+
+COPY_EXISTING ~abracead.2da~ ~override~
+	READ_2DA_ENTRIES_NOW ~race_modifiers~ 7
+BUT_ONLY
+
+COPY_EXISTING ~abracerq.2da~ ~override~
+	READ_2DA_ENTRIES_NOW ~race_base~ 13
+BUT_ONLY
+
+COPY - ~kit_lookup.2da~ ~kit_lookup.2da~
+  PATCH_IF MOD_IS_INSTALLED ~setup-tobexconfig.tp2~ 750 THEN BEGIN
+    SET_2DA_ENTRY 49 1 2 BARBARIAN
+    SET_2DA_ENTRY 50 1 2 WILDMAGE
+  END
+	READ_2DA_ENTRIES_NOW ~_kit_lookup~ 2
+	FOR (i = 0; i < _kit_lookup; ++i) BEGIN
+		READ_2DA_ENTRY_FORMER _kit_lookup i 0 abc
+		READ_2DA_ENTRY_FORMER _kit_lookup i 1 ids
+		SPRINT $kit_lookup(EVALUATE_BUFFER ~%abc%~) ~%ids%~
+	END
+BUT_ONLY
+	
+OUTER_SPRINT endofBG1 ~False()~
+OUTER_SPRINT inBG1 ~~
+ACTION_IF GAME_IS BGT THEN BEGIN
+	OUTER_SPRINT ~endofBG1~ ~Global("EndOfBG1","GLOBAL",2)~
+  OUTER_SPRINT inBG1 ~Global("EndOfBG1","GLOBAL",0)~
+END ELSE ACTION_IF GAME_IS ~SoA ToB~ THEN BEGIN
+	OUTER_SPRINT ~endofBG1~ ~~
+  OUTER_SPRINT ~inBG1~ ~False()~
+END
+
+DEFINE_ACTION_FUNCTION addConditional
+	STR_VAR condition = ~~
+	        name = ~~
+BEGIN
+  SILENT
+	ACTION_IF ~%condition%~ STRING_COMPARE ~~ AND ~%name%~ STRING_COMPARE ~~ THEN BEGIN
+		COPY - ~tb#tweaks/prod/script.baf~ ~tb#tweaks/prod/script.baf~
+			APPEND_FILE ~other.baf~
+			EVALUATE_BUFFER
+			EVALUATE_BUFFER
+
+		COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+			APPEND_FILE ~otherStart.d~
+			EVALUATE_BUFFER
+			EVALUATE_BUFFER
+	END
+  VERBOSE
+END
+
+COPY - empty ~tb#tweaks/prod/script.baf~
+
+COPY - empty ~tb#tweaks/prod/tb#twsta.d~
+	INSERT_BYTES 0 (STRING_LENGTH ~BEGIN TB#TWSTA
+	~)
+	WRITE_ASCII 0 ~BEGIN TB#TWSTA
+	~
+
+COPY ~statsf.2da~ ~statsf.2da~
+  READ_2DA_ENTRIES_NOW statsf 3
+BUT_ONLY 
+
+LOAD_TRA ~tb#tweaks/%LANGUAGE%/tb#twsta.tra~

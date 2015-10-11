@@ -1,0 +1,95 @@
+// Eradicate exceptional strength
+COPY_EXISTING ~strmodex.2da~ ~override~
+	COUNT_2DA_ROWS 5 rows
+	FOR(i = 0; i < rows; i += 1) BEGIN
+		FOR (j = 1; j < 5; j += 1) BEGIN
+			SET_2DA_ENTRY_LATER strmodex i j 0
+		END
+	END
+	SET_2DA_ENTRIES_NOW strmodex 5
+	PRETTY_PRINT_2DA
+
+// helper function for nicely rounding values
+DEFINE_PATCH_FUNCTION round_value
+	RET
+		nval
+	BEGIN
+		// hardcoding a switch..case, yay!
+		err = val <= 10 ? 1 : (val <= 50 ? 5 : (val <= 100 ? 10 :
+		                           (val <= 200 ? 20 : 50)))
+		nval = err * ((val + err - 1) / err)
+END
+
+// Move to 3rd-edition style values
+
+// THAC0 is computed with vanilla 3rd edition rules: T = floor((S-10)/2).
+// Damage is computed as D = floor((S-9)/2), to reflect the fact that damage
+// bonus > THAC0 bonus in 2nd ed. Exceptional Strength is ignored.
+// See below for extensive discussion of the parameters for BBLG and WA
+
+// Generally speaking, people with 0~18 strength become more powerful, whereas
+// people with exceptional strength and/or strength >=19 become less powerful
+// than vanilla.
+
+COPY_EXISTING ~strmod.2da~ ~override~
+	COUNT_2DA_ROWS 5 rows
+	FOR (i = 0; i < rows; i += 1) BEGIN
+		// THAC0
+		SET_2DA_ENTRY_LATER strmod i 1 (i / 2 - 5)
+		// Damage
+		SET_2DA_ENTRY_LATER strmod i 2 ((i + 1) / 2 - 5)
+
+		// Bend Bars / Lift Gate
+		val = ((240 * i)/(350 - 11 * i))
+		LAUNCH_PATCH_FUNCTION round_value
+			INT_VAR val = ~%val%~
+			RET nval = nval
+		END
+		SET_2DA_ENTRY_LATER strmod i 3 nval
+
+		// Weight Allowance
+		val = ((2240 * i) / (510 - 19 * i))
+		LAUNCH_PATCH_FUNCTION round_value
+			INT_VAR val = val
+			RET nval = nval
+		END
+		SET_2DA_ENTRY_LATER strmod i 4 nval
+	END
+	SET_2DA_ENTRIES_NOW strmod 5
+	PRETTY_PRINT_2DA
+	
+	
+// Weight allowance and bend bars/lift gates are more complex, chiefly because
+// I'm too lazy to look up the 3rd edition tables and find more fun to figure
+// out a generic equation.
+
+//
+// WARNING: high-school geometry and algebra ahead
+//
+
+// The plot of the values of both WA and BB/LG between 1 and 18 and between 19
+// and 25 (to ignore the dumb exceptional strength section) looks like a
+// rectangular hyperbola with horizontal/vertical asymptotes. The generic
+// equation for that is y = (ax + b) / (y + c) (with a,b,c real, ac != b). We
+// need three pairs of x and y to calculate the a,b,c parameters. In both
+// cases, I took the points with str=0,10,25 for computing a,b,c. Taking the
+// edge points (str=0,25) is needed to avoid obtaining values in the millions,
+// and the str=10 point was chosen because it's the average human's value (and
+// because it made computations easier compared to 13, which is the middle
+// point of the data range).
+
+// For WA, we have these three points: (0,0), (10,70), (25,1600), which leads
+// to a= -2240/19, b= 0, c= -510/19, thus WA= -2240/19*str*(str-510/19).
+// Obviously, that formula can be simplified to WA= 2240*S*(510-19*S).
+
+// For BBLG, we have the points (0,0), (10,10), (25,80), leading to a= -240/11,
+// b= 0, c= -350/11, BBLG= -240*11*str*(str-350/11) = 240*str*(350-11*str).
+
+// Finally, the value for both WA and BBLG is rounded as follows:
+//       val <= 10  => nval = val
+// 10  < val <= 50  => nval =  5 * ceil (val /  5)
+// 50  < val <= 100 => nval = 10 * ceil (val / 10)
+// 100 < val <= 200 => nval = 20 * ceil (val / 20)
+// 200 < val        => nval = 50 * ceil (val / 50)
+
+// See files tb#tweaks/doc/strength for graphs

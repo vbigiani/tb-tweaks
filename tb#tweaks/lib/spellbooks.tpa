@@ -1,0 +1,272 @@
+OUTER_TEXT_SPRINT TOBEX_MOD_DIRECTORY "./tb#tweaks"
+LOAD_TRA "%TOBEX_MOD_DIRECTORY%/TobEx_redist/TobEx.tra"
+ACTION_INCLUDE "%TOBEX_MOD_DIRECTORY%/TobEx_redist/TobEx.tpa"
+
+OUTER_SET $spellbook(a) = 0
+
+RANDOM_SEED ~An empty string~
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEFINE_ACTION_FUNCTION ~GET_UNIQUE_FILE_NAME~
+  STR_VAR extension = ""
+          base = ""
+  RET filename
+  BEGIN
+    OUTER_PATCH ~~ BEGIN
+      LPF ~GET_UNIQUE_FILE_NAME~ STR_VAR extension = EVALUATE_BUFFER "%extension%" base = EVALUATE_BUFFER "%base%" RET filename = filename END
+    END
+END
+
+DEFINE_PATCH_FUNCTION ~BASE36~
+  INT_VAR
+    value = 0
+  RET
+    base36
+  BEGIN
+    PATCH_IF value < 0 || value >= 36 * 36 * 36 * 36 THEN BEGIN
+      PATCH_FAIL ~BASE36 called on %value% (out of bounds 0 <= x < 36 **4)~
+    END
+  
+    INNER_PATCH_SAVE base36 ~0000~ BEGIN
+      FOR (i = 3; i >= 0; --i) BEGIN
+        digit = value - (value / 36) * 36
+        value = value / 36
+        WRITE_BYTE i digit + (digit < 10 ? 0x30 : 0x57)
+      END
+    END
+END
+
+DEFINE_PATCH_FUNCTION ~GET_UNIQUE_FILE_NAME~
+  STR_VAR
+          extension = ""
+          base = ""
+  RET filename
+  BEGIN
+    PATCH_IF ~%extension%~ STRING_EQUAL_CASE ~~ THEN BEGIN
+      PATCH_FAIL ~GET_UNIQUE_FILE_NAME requires to define the extension variable.~
+    END
+    
+    INNER_ACTION BEGIN
+      ACTION_IF ! FILE_EXISTS_IN_GAME ~get_unique_filename_%extension%.ids~ THEN BEGIN
+        <<<<<<<< empty
+        >>>>>>>>
+        COPY + empty ~get_unique_filename_%extension%.ids~
+      END
+    END
+    
+    value = IDS_OF_SYMBOL (~get_unique_filename_%extension%~ ~%base%~)
+    PATCH_IF value = 0 - 1 THEN BEGIN
+      found = 0
+      WHILE !found BEGIN
+        ++value
+        LPF ~BASE36~ INT_VAR value = value RET maybe = base36 END
+        LOOKUP_IDS_SYMBOL_OF_INT exists ~get_unique_filename_%extension%~ value
+        PATCH_IF IS_AN_INT exists
+          && !FILE_EXISTS_IN_GAME ~__%maybe%.%extension%~ THEN BEGIN 
+          found = 1
+        END
+      END
+      INNER_ACTION BEGIN
+        APPEND + ~get_unique_filename_%extension%.ids~ ~%value% %base%~
+      END
+    END ELSE BEGIN
+      LPF ~BASE36~ INT_VAR value = value RET maybe = base36 END
+    END
+    
+    SPRINT filename ~__%maybe%~
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEFINE_ACTION_MACRO ~create_spellbook~ BEGIN
+  COPY ~tb#tweaks/other/tb#tspel.itm~ ~override/%filename%.itm~
+    PHP_EACH spellbook AS spell => added BEGIN
+      PATCH_IF added = 1 THEN BEGIN
+        LPF ADD_ITEM_EFFECT
+          INT_VAR
+            type = 99
+            header = 1
+            opcode = 147
+            target = 1
+            parameter1 = BIT20 | BIT21 | BIT22 | BIT23
+            timing = 1
+          STR_VAR
+            resource = EVALUATE_BUFFER ~%spell_0%~
+        END
+      END
+    END
+    
+    SAY NAME1 @22100
+    SAY NAME2 @22101
+    SAY UNIDENTIFIED_DESC @22102
+    SPRINT desc @22103
+    INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+
+      PHP_EACH spellbook AS spell => added BEGIN
+        PATCH_IF added = 1 THEN BEGIN
+          /* LPF get_spell_name
+            STR_VAR spell = EVALUATE_BUFFER ~%spell_0%~
+            RET spell_name = spell_name
+          END */
+          TO_UPPER spell_0
+          PATCH_IF VARIABLE_IS_SET $spell_names(EVALUATE_BUFFER "%spell_0%") THEN BEGIN
+            SPRINT spell_name $spell_names(EVALUATE_BUFFER "%spell_0%")
+          END ELSE BEGIN
+            INNER_PATCH_FILE ~%spell_0%.spl~ BEGIN
+              READ_STRREF NAME1 spell_name
+              SPRINT $spell_names(EVALUATE_BUFFER "%spell_0%") ~%spell_name%~
+            END
+          END
+
+          REPLACE_TEXTUALLY ~___SPELL_LIST___~ ~%spell_name%%WNL%___SPELL_LIST___~
+        END
+      END
+      REPLACE_TEXTUALLY ~___SPELL_LIST___[%WNL%]~ ~~
+    END
+    SAY IDENTIFIED_DESC ~%desc%~
+END
+
+DEFINE_PATCH_MACRO ~consider_spell~ BEGIN
+  TO_UPPER spell
+  PATCH_IF !(IS_AN_INT $spellbook(EVALAUTE_BUFFER "%spell%")) || $spellbook(EVALUATE_BUFFER "%spell%") != 0 THEN BEGIN
+    do_add = RANDOM (0 99) < spell_chance ? 1 : 2
+    any = any || (do_add == 1)
+    SET $spellbook(EVALUATE_BUFFER "%spell%") = do_add
+  END
+END
+
+DEFINE_PATCH_FUNCTION ~get_spell_name~
+  STR_VAR spell = ~~
+  RET spell_name
+BEGIN
+  TO_UPPER spell
+  PATCH_IF VARIABLE_IS_SET $spell_names(EVALUATE_BUFFER "%spell%") THEN BEGIN
+    SPRINT spell_name $spell_names(EVALUATE_BUFFER "%spell%")
+  END ELSE BEGIN
+    INNER_PATCH_FILE ~%spell%.spl~ BEGIN
+      READ_STRREF NAME1 spell_name
+      SPRINT $spell_names(EVALUATE_BUFFER "%spell%") ~%spell_name%~
+    END
+  END
+END
+
+OUTER_SPRINT which ~spell~
+
+COPY_EXISTING_REGEXP GLOB  ~.*\.itm~ ~override~
+  PATCH_INCLUDE ~tb#tweaks/lib/scan_spl.tpp~
+BUT_ONLY_IF_IT_CHANGES
+
+COPY_EXISTING_REGEXP GLOB ~^.*\.cre$~ ~override~
+  READ_BYTE 0x273 class
+  PATCH_IF (LONG_AT 0x14) > 0 &&
+      (class = 1 || class = 5 || class = 7 || class = 10 || class = 13 || class = 14 || class = 17)
+  THEN BEGIN
+    any = 0
+    PHP_EACH spellbook AS from => to BEGIN
+      SET $spellbook(EVALUATE_BUFFER "%from_0%") = 0
+    END
+    CLEAR_ARRAY spellbook
+    READ_LONG 0x2a8 meminfo_off
+    READ_LONG 0x2ac meminfo_cnt
+    READ_LONG 0x2b0 memor_off
+    
+    FOR (meminfo_idx = 0; meminfo_idx < meminfo_cnt; ++meminfo_idx) BEGIN
+      meminfo_base = meminfo_off + 0x10 * meminfo_idx
+      PATCH_IF LONG_AT (meminfo_base + 0xc) > 0 &&  SHORT_AT (meminfo_base + 0x6) = 1 THEN BEGIN
+        PATCH_MATCH 1 + SHORT_AT meminfo_base WITH
+          4 BEGIN
+            TEXT_SPRINT spell SPWI420 // Minor Spell Sequencer
+            LPM consider_spell
+          END
+          6 BEGIN
+            TEXT_SPRINT spell SPWI617 // Contingency
+            LPM consider_spell
+          END
+          7 BEGIN
+            TEXT_SPRINT spell SPWI710 // Spell Sequencer
+            LPM consider_spell
+          END
+          8 BEGIN
+            TEXT_SPRINT spell SPWI510 // Spell Immunity
+            LPM consider_spell
+            TEXT_SPRINT spell SPWI809 // Spell Trigger
+            LPM consider_spell
+          END
+          9 BEGIN
+            TEXT_SPRINT spell SPWI908 // Chain Contingency
+            LPM consider_spell
+          END
+          DEFAULT
+        END
+        
+        READ_LONG meminfo_base + 0x8 memor_idx
+        READ_LONG meminfo_base + 0xc memor_cnt
+        FOR (i = memor_idx; i < memor_idx + memor_cnt; ++i) BEGIN
+          memor_base = memor_off + i * 0xc
+          PATCH_IF LONG_AT (memor_base + 8) THEN BEGIN
+            READ_ASCII memor_base spell
+            TO_UPPER spell
+            PATCH_IF IS_AN_INT $ok_spells(EVALUATE_BUFFER "%spell%") && $ok_spells(EVALUATE_BUFFER "%spell%") = 1 THEN BEGIN
+              LPM consider_spell
+            END
+          END
+        END
+      END
+    END
+    
+    PATCH_IF any THEN BEGIN
+      READ_STRREF NAME1 name
+      LPF ~GET_UNIQUE_FILE_NAME~
+        STR_VAR
+          base = EVALUATE_BUFFER ~tb#spellbooks_%SOURCE_RES%~
+          extension = ~itm~
+        RET filename = filename
+      END
+      
+      PATCH_IF  RANDOM (0 99) < drop_chance THEN BEGIN
+        ADD_CRE_ITEM ~%filename%~ #1 #0 #0 ~unstealable~ ~INV~
+      END
+        
+      INNER_ACTION BEGIN
+        SILENT
+        LAM ~create_spellbook~
+      END
+    END
+  END  
+BUT_ONLY
+
+OUTER_PATCH ~~ BEGIN
+  SET spell_chance = 100
+  PHP_EACH ok_spells AS spell => ign BEGIN
+    SPRINT spell ~%spell_0%~
+    LPM ~consider_spell~
+  END
+  SPRINT name ~the Gods~
+  SPRINT filename ~tb#tspel~
+END
+LAM ~create_spellbook~
+VERBOSE

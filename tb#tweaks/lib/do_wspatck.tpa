@@ -1,0 +1,6 @@
+OUTER_SPRINT TOBEX_MOD_DIRECTORY "./tb#tweaks"
+LOAD_TRA "%TOBEX_MOD_DIRECTORY%/TobEx_redist/TobEx.tra"
+ACTION_INCLUDE "%TOBEX_MOD_DIRECTORY%/TobEx_redist/TobEx.tpa"
+
+COPY "TobEx_ini/TobExTweak.ini" "TobEx_ini/TobExTweak.ini"
+  REPLACE_TEXTUALLY ~Engine:Weapon Specialisation Number of Attacks Mod=0~ ~Engine:Weapon Specialisation Number of Attacks Mod=1~

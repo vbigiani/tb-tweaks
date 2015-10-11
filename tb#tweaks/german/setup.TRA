@@ -1,0 +1,98 @@
+@500   = ~TB#Tweaks, V 2.61~ 
+@0     = ~Dieser Teil wurde bereits installiert. Skipping...~
+@1     = ~Dieser Vorgang kann einige Minuten dauern...~ 
+@2     = ~Älterer Teil.~
+@3     = ~Installiere ToB-Teil.~ 
+@4     = ~Überspringe ToB-Teil.~
+@5     = ~nur SoA+ToB-Teil.~
+@6     = ~nur SoA-Teil.~ 
+@1000  = ~Schönheit der Natur Tweak.~
+@2000  = ~Einkerkerung Fix.~ 
+@3000  = ~Fleisch zu Stein Fix.~
+@4000  = ~Beseitigt Effekt des Waffe-Wegwerfens bei Panik.~
+@5000  = ~Unbegrenzter Begrenzter Wunsch & Wunsch.~ 
+@5001  = ~Veraltet. Dieser Bestandteil kann im BG2 Fixpack gefunden werden:
+http: // www.gibberlings3.net/bg2fixpack/~
+@6000  = ~Mehr Mogel-Wünsche:~ 
+@6001  = ~Zweckdienlicherer Wunsch.~
+@7000  = ~Verstärkter Begrenzter Wunsch & Wunsch.~
+@7001  = ~Verstärkter Begrenzter Wunsch.~
+@8000  = ~Spaßiger Dialog. ~ 
+@8001  = ~Erweiterte Schwierigkeitsgrade.~
+@8002  = ~Ernsthafter (empfohlener) Dialog.~ 
+@9000  = ~Schnellere Romanzen:~ 
+@9001  = ~Leicht.~
+@9002  = ~Mittel.~ 
+@9003  = ~Schwer.~
+@10000 = ~Keine Statistiken für Gegenstände vorausgesetzt. ~
+@11000 = ~WSPATCK für alle (Taimon)~
+@11001 = ~Immer~
+@11002 = ~Nur für ** und höher~
+@11003 = ~Alle erhalten ApR durch Waffenfertigkeiten, nur Krieger durch Level~
+@11004 = ~Komponente benötigt BG2 für Windows um zu funktionieren.
+
+
+Falls du GemRB benutzt, melde das und ich werde die Kompatibilität überprüfen.
+Falls du einen Intel Mac benutzt, besorge dir die Windows Version von BG2 und benutze diese via Wine.
+Falls du einen PowerPC Mac benutzt bist hast du leider Pech.
+~
+@11005 = ~Hinzufügen von Reihen zu clab.2da nicht implentiert; melde das und ich werde es implentieren.~
+@11006 = ~nicht implentiert.~
+@11007 = ~Konflikt: %clab%.2da wird zugleich von einem krieger- und einem nicht-krieger Kit benutzt; melde das und ich werde es zulassen.~
+@11008 = ~CLAB File wird gleichzeitig von inkompatiblen Klassen genutzt.~
+@12000 = ~Stärke im Stil der 3. Fassung~
+@13000 = ~Geschicklichkeit  im Stil der 3. Fassung~
+@14000 = ~Konstitution im Stil der 3. Fassung~
+@15000 = ~Intelligenz im Stil der 3. Fassung~
+@16000 = ~Weisheit im Stil der 3. Fassung~
+@17000 = ~Charisma im Stil der 3. Fassung~
+@18000 = ~Druiden können metallische Gegenstände tragen~
+@19000 = ~Statistiken beim Stufenaufstieg erhöhen~
+@19001 = ~%_kit% hat eine Nicht-Null-Modifizierer für %Stat%. Dies ist (noch) nicht zulässig. Berichtet davon, und ich werde es erlauben.~
+@19002 = ~%_kit% hat eine Nicht-Null-Modifizierer für %Stat%. Dies ist nicht zulässig und kann leider nicht zugelassen werden.~
+@19003 = ~Niemand kann sich über das Maximum der Rasse hinaus verbessern.~
+@19004 = ~Nur die Hauptfigur kann sich über das Maximum der Rasse hinaus verbessern.~
+@19005 = ~Jeder kann sich über das Maximum der Rasse hinaus verbessern.~
+@19006 = ~Ein Punkt alle 4 Level und ein Punkt pro Kapitel; alle können sich über ihr Rassen-Maximum steigern (vorgeschlagen von @vgur)~
+@20000 = ~Gewöhnliche Zweiklassenzugehörigkeit~
+@20001 = ~Verworfen - funktioniert noch nicht~
+@21000 = ~Gruppenmitglieder können auch Gesichtsstiche ausführen!~
+@21001 = ~Immer~
+@21002 = ~Nur solange Unauffindbarkeit wirkt~
+@21003 = ~Benötigt "Configurable Backstab Every Hit" aus Ascension64s Tobex (http://bit.ly/i8awTx)~
+@21004 = ~%SOURCE_EXT% Wirkung kopieren wird (noch) nicht unterstützt. Berichtet davon, und ich werde sie unterstützen.~ 
+@22000 = ~Magier hinterlassen Zauberbücher.~
+@22001 = ~100% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 100% der vorbereiteten Zauber.~
+@22002 = ~100% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 75% der vorbereiteten Zauber.~
+@22003 = ~100% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 50% der vorbereiteten Zauber.~
+@22004 = ~100% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 25% der vorbereiteten Zauber.~
+@22005 = ~75% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 100% der vorbereiteten Zauber.~
+@22006 = ~75% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 75% der vorbereiteten Zauber.~
+@22007 = ~75% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 50% der vorbereiteten Zauber.~
+@22008 = ~75% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 25% der vorbereiteten Zauber.~
+@22009 = ~50% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 100% der vorbereiteten Zauber.~
+@22010 = ~50% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 75% der vorbereiteten Zauber.~
+@22011 = ~50% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 50% der vorbereiteten Zauber.~
+@22012 = ~50% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 25% der vorbereiteten Zauber.~
+@22013 = ~25% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 100% der vorbereiteten Zauber.~
+@22014 = ~25% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 75% der vorbereiteten Zauber.~
+@22015 = ~25% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 50% der vorbereiteten Zauber.~
+@22016 = ~25% aller Magier hinterlassen Zauberbücher, Zauberbücher beinhalten 25% der vorbereiteten Zauber.~
+@22100 = ~Ein Zauberbuch~
+@22101 = ~Das Zauberbuch von %name%~
+@22102 = ~Zauberbücher beinhalten das magische Wissen von Magiern. Bei Benutzung wirst du (mit deiner üblichen Misserfolgsrate) einige der Zauber des Besitzers erlernen, bevor es zerstört wird. Hexenmeister können das Zauberbuch zwar benutzen, werden davon aber nicht profitieren (das Zauberbuch wird dennoch zerstört); Magier mit einer Spezialisierung können keine Zauber der entgegengesetzten Schule erlernen.
+
+Gewicht: 2
+Benutzbar von:
+Barden
+allen Magiern
+~
+@22103 = ~Dies ist das Zauberbuch von %name%. Bei Benutzung wirst du (mit deiner üblichen Misserfolgsrate) diese Zauber erlernen, bevor es zerstört wird:
+___SPELL_LIST___
+Hexenmeister können das Zauberbuch zwar benutzen, werden davon aber nicht profitieren (das Zauberbuch wird dennoch zerstört); Magier mit einer Spezialisierung können keine Zauber der entgegengesetzten Schule erlernen.
+
+Gewicht: 2
+Benutzbar von:
+Barden
+allen Magiern
+~

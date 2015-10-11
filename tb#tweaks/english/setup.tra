@@ -1,0 +1,101 @@
+@500   = ~TB#Tweaks, V 2.61~
+
+@0     = ~You seem to already have this component installed, skipping...~
+@1     = ~This could take some minutes, sorry for the inconvenience.~
+@2     = ~Deprecated component.~
+@3     = ~Installing the TOB portion.~
+@4     = ~Skipping the TOB portion.~
+@5     = ~SoA+ToB -only component~
+@6     = ~SoA -only component.~
+@1000  = ~Nature's Beauty Tweak.~
+@2000  = ~Imprisonment Fix.~
+@3000  = ~Flesh to Stone Fix.~
+@4000  = ~Drop Weapons in Panic Effect Removal.~
+@5000  = ~Unlimited Limited Wish & Wish.~
+@5001  = ~Deprecated. This component can be found in the BG2 Fixpack:
+http://www.gibberlings3.net/bg2fixpack/~
+@6000  = ~More cheating Wishes:~
+@6001  = ~Convenient Wish.~
+@7000  = ~Cheesy Limited Wish & Wish.~
+@7001  = ~Cheesy Limited Wish.~
+@8000  = ~Funny dialogue.~
+@8001  = ~Improved Difficulty System.~
+@8002  = ~Serious dialogue (recommended).~
+@9000  = ~Faster Romances:~
+@9001  = ~Light.~
+@9002  = ~Medium.~
+@9003  = ~Heavy.~
+@10000 = ~No stats requirements for items.~
+@11000 = ~WSPATCK for all (Taimon)~
+@11001 = ~Always~
+@11002 = ~Only for ** and up~
+@11003 = ~Everybody gets ApR from proficiency, only Warriors from level~
+@11004 = ~Component requires the Windows client of BG2 to work.
+
+If you are using GemRB report this and I'll investigate compatibility.
+If you are using an Intel Mac get the Windows version of BG2 and run it via Wine.
+If you are using a PowerPC Mac you're SOL.
+~
+@11005 = ~clab*.2da row addition not implemented; report and I'll implement this.~
+@11006 = ~not implemented.~
+@11007 = ~Conflict: %clab%.2da is used both by a warrior and a non-warrior kit; report and I'll allow this.~
+@11008 = ~CLAB file shared between incompatible classes.~
+@12000 = ~3rd edition style Strength~
+@13000 = ~3rd edition style Dexterity~
+@14000 = ~3rd edition style Constitution~
+@15000 = ~3rd edition style Intelligence~
+@16000 = ~3rd edition style Wisdom~
+@17000 = ~3rd edition style Charisma~
+@18000 = ~Druids can wear metal items~
+@19000 = ~Gain stats as you level up~
+@19001 = ~%_kit% has a non-zero modifier to %Stat%. This isn't allowed (yet). Report this and I'll allow it.~
+@19002 = ~%_kit% has a non-zero modifier to %Stat%. Requires 'Kit Trigger Fix' from Ascension64's ToBEx (http://bit.ly/i8awTx).~
+@19003 = ~5 points for a full BGT game; nobody can advance over their racial maximum.~
+@19004 = ~5 points for a full BGT game; only the main character can advance over their racial maximum.~
+@19005 = ~5 points for a full BGT game; everybody can advance over their racial maximum.~
+@19006 = ~One point every 4 levels and one point every chapter; everybody can advance over their racial maximum (@vgur)~
+@19007 = ~5 points for a full BGT game; everybody can advance exactly one point over their racial maximum; not retroactive (Quester).~
+@20000 = ~Trivial dual-classing.~
+@20001 = ~Deprecated - doesn't yet work~
+@21000 = ~Party Members can facestab too!~
+@21001 = ~Always~
+@21002 = ~Only when under the effect of Non-Detection~
+@21003 = ~Requires 'Configurable Backstab Every Hit' from Ascension64's TobEx (http://bit.ly/i8awTx)~
+@21004 = ~%SOURCE_EXT% effect cloning is not (yet) supported. Report this and I'll support it.~
+@22000 = ~Mages drop spellbooks.~
+@22001 = ~100% of mages drop spellbooks, spellbooks contain 100% of memorized spells.~
+@22002 = ~100% of mages drop spellbooks, spellbooks contain 75% of memorized spells.~
+@22003 = ~100% of mages drop spellbooks, spellbooks contain 50% of memorized spells.~
+@22004 = ~100% of mages drop spellbooks, spellbooks contain 25% of memorized spells.~
+@22005 = ~75% of mages drop spellbooks, spellbooks contain 100% of memorized spells.~
+@22006 = ~75% of mages drop spellbooks, spellbooks contain 75% of memorized spells.~
+@22007 = ~75% of mages drop spellbooks, spellbooks contain 50% of memorized spells.~
+@22008 = ~75% of mages drop spellbooks, spellbooks contain 25% of memorized spells.~
+@22009 = ~50% of mages drop spellbooks, spellbooks contain 100% of memorized spells.~
+@22010 = ~50% of mages drop spellbooks, spellbooks contain 75% of memorized spells.~
+@22011 = ~50% of mages drop spellbooks, spellbooks contain 50% of memorized spells.~
+@22012 = ~50% of mages drop spellbooks, spellbooks contain 25% of memorized spells.~
+@22013 = ~25% of mages drop spellbooks, spellbooks contain 100% of memorized spells.~
+@22014 = ~25% of mages drop spellbooks, spellbooks contain 75% of memorized spells.~
+@22015 = ~25% of mages drop spellbooks, spellbooks contain 50% of memorized spells.~
+@22016 = ~25% of mages drop spellbooks, spellbooks contain 25% of memorized spells.~
+
+// in-game strings
+@22100 = ~A Spellbook~
+@22101 = ~The Spellbook of %name%~
+@22102 = ~Spellbooks contain mages' magical knowledge. If used  you will learn (at your usual failure rate) some of its owner's spells, before being destroyed. Sorcerors can use the spellbook but won't benefit from it (and the spellbook will be destroyed); specialized mages won't learn the spells from the opposite school.
+
+Weight: 2
+Usable by:
+Bard
+any Mage
+~
+@22103 = ~This is the Spellbook of %name%. If used, you will learn (at your usual failure rate) these spells before being destroyed:
+___SPELL_LIST___
+Sorcerors can use the spellbook but won't benefit from it (and the spellbook will be destroyed); specialized mages won't learn the spells from the opposite school.
+
+Weight: 2
+Usable by:
+Bard
+any Mage
+~

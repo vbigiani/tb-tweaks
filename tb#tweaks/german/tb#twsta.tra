@@ -1,0 +1,25 @@
+@19108 = ~Wenn Ihr dies seht, mogelt Ihr entweder oder Ihr erlebt einen Fehler in tb#tweaks.~
+
+@19107 = ~<GABBER> denkt an <HISHER>e Abenteuer mit Euch.~
+@19109 = ~Durch die harten Lebensumstände trainierte <HESHE> <HISHER>e...~
+@19102 = ~Aber <HESHE> hat <HISHER>e genauso ausgenutzt...~
+@19111 = ~...%Stat%.~
+         ~...%Statf%.~
+@19112 = ~Nichts.~
+
+@19100 = ~Tatsächlich hat <HESHE> fleißig trainiert, um <HISHER>e %Stat% zu verbessern.~
+         ~Tatsächlich hat <HESHE> fleißig trainiert, um <HISHER>e %Statf% zu verbessern.~
+@19106 = ~Hat <HESHE> emsig genug trainiert, dass <HISHER>e %Stat% %comparative% wird?~
+         ~Hat <HESHE> emsig genug trainiert, dass <HISHER>e %Stat% %comparativef% wird?~
+@19105 = ~Ja! <GABBER> ist jetzt %comparative%.~
+         ~Ja! <GABBER> ist jetzt %comparativef%.~
+
+
+@19101 = ~Nein, denn <HESHE> ist bereits so %adjective% wie möglich für einen <RACE>.~
+         ~Nein, denn <HESHE> ist bereits so %adjectivef% wie möglich für einen <RACE>.~
+@19103 = ~<GABBER> ist nur wegen eines magischen Zaubers so %adjective% wie für einen <RACE> möglich, aber <HESHE> könnte noch <HISHER>e natürliche %Stat% verbessern.~
+         ~<GABBER> ist nur wegen eines magischen Zaubers so %adjectivef% wie für einen <RACE> möglich, aber <HESHE> könnte noch <HISHER>e natürliche %Statf% verbessern.~
+@19104 = ~<GABBER> wird es in acht Stunden wieder versuchen, nachdem <HESHE> Gegenstände und Zaubersprüche entfernt hat, die <HISHER>e %Stat% beeinflussen.~
+         ~<GABBER> wird es in acht Stunden wieder versuchen, nachdem <HESHE> Gegenstände und Zaubersprüche entfernt hat, die <HISHER>e %Statf% beeinflussen.~
+
+@19110 = ~<GABBER> kehrt mit seinen Gedanken an <HISHER>e bevorstehende Aufgabe zurück.~

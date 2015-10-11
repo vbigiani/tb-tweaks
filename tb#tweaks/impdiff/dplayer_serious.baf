@@ -1,0 +1,7 @@
+IF
+  HotKey(K)
+THEN
+    RESPONSE #100
+             SetGlobal("RTWMyDifficulty","global",0)
+END
+
