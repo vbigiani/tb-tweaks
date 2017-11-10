@@ -54,8 +54,8 @@ COPY_EXISTING_REGEXP GLOB ~^.*\.cre$~ ~override~
       TO_UPPER script
       PATCH_IF $done (EVALUATE_BUFFER ~%script%~) STRING_EQUAL_CASE ~%name%~ THEN BEGIN
         found = 1
-      END ELSE PATCH_IF ~%script%~ STRING_EQUAL_CASE ~none~ || ~%script%~ STRING_EQUAL_CASE ~~ || ~%script%~ STRING_EQUAL_CASE ~ ~ THEN BEGIN
-        offset -= 8
+      END ELSE PATCH_IF !FILE_EXISTS_IN_GAME ~%script%.bcs~ || ~%script%~ STRING_EQUAL_CASE ~none~ || ~%script%~ STRING_EQUAL_CASE ~~ || ~%script%~ STRING_EQUAL_CASE ~ ~ THEN BEGIN
+         offset -= 8
       END ELSE PATCH_IF iter = 1 BEGIN
         SPRINT $done (EVALUATE_BUFFER ~%script%~) ~%name%~
         INNER_ACTION BEGIN
