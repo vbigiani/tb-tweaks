@@ -73,7 +73,13 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY ~extra_clab~ BEGIN
 END
 
 COPY_EXISTING ~kitlist.2da~ ~override~
-  READ_2DA_ENTRIES_NOW _kitlist 9
+	PATCH_IF ENGINE_IS ~BGEE BG2EE~ THEN BEGIN
+		kitlist_col_count = 10
+	END ELSE BEGIN
+		kitlist_col_count = 9
+	END
+
+  READ_2DA_ENTRIES_NOW _kitlist kitlist_col_count
   FOR (kitnumber = 1; kitnumber < _kitlist; kitnumber = kitnumber + 1) BEGIN
     READ_2DA_ENTRY_FORMER _kitlist kitnumber 8 class
     READ_2DA_ENTRY_FORMER _kitlist kitnumber 5 clab
