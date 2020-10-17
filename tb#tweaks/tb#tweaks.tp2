@@ -57,14 +57,17 @@ LANGUAGE ~English~
 
 LANGUAGE ~Russian by Alexey Marshalko aka Prowler~
 	 ~russian~
+	 ~tb#tweaks/english/setup.tra~
 	 ~tb#tweaks/russian/setup.tra~
 
 LANGUAGE ~German by Drogan Di'Umptu and Leonardo Watson~
 	 ~german~
+	 ~tb#tweaks/english/setup.tra~
 	 ~tb#tweaks/german/setup.tra~
 
 LANGUAGE ~Spanish by Lisandro~
 	 ~spanish~
+	 ~tb#tweaks/english/setup.tra~
 	 ~tb#tweaks/spanish/setup.tra~
 
 
