@@ -16,12 +16,12 @@ ACTION_IF GAME_IS ~SoA ToB BGT BG2EE EET~ THEN BEGIN
   END
 END
 
-COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+COPY - ~weidu_external/prod/tb#tweaks/tb#twsta.d~ ~weidu_external/prod/tb#tweaks/tb#twsta.d~
 	APPEND_FILE ~tb#twsta.d~
 	EVALUATE_BUFFER
 
 SILENT
-COPY - ~tb#tweaks/prod/script.baf~ ~tb#tweaks/prod/script.baf~
+COPY - ~weidu_external/prod/tb#tweaks/script.baf~ ~weidu_external/prod/tb#tweaks/script.baf~
   spread = 4
   maxLevel = 50
   thresholds = maxLevel / spread
@@ -31,7 +31,7 @@ COPY - ~tb#tweaks/prod/script.baf~ ~tb#tweaks/prod/script.baf~
 		APPEND_FILE ~level.baf~
 		EVALUATE_BUFFER
 		INNER_ACTION BEGIN
-			COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+			COPY - ~weidu_external/prod/tb#tweaks/tb#twsta.d~ ~weidu_external/prod/tb#tweaks/tb#twsta.d~
 				REPLACE_TEXTUALLY ~ADD_THRESHOLD~ ~~~~~Global("tb#twstatcounter","LOCALS",%counter%) ADD_THRESHOLD~~~~~
 		END
 	END

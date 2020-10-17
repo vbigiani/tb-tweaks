@@ -293,12 +293,12 @@ DEFINE_ACTION_FUNCTION addConditional
 BEGIN
   SILENT
 	ACTION_IF ~%condition%~ STRING_COMPARE ~~ AND ~%name%~ STRING_COMPARE ~~ THEN BEGIN
-		COPY - ~tb#tweaks/prod/script.baf~ ~tb#tweaks/prod/script.baf~
+		COPY - ~weidu_external/prod/tb#tweaks/script.baf~ ~weidu_external/prod/tb#tweaks/script.baf~
 			APPEND_FILE ~other.baf~
 			EVALUATE_BUFFER
 			EVALUATE_BUFFER
 
-		COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~
+		COPY - ~weidu_external/prod/tb#tweaks/tb#twsta.d~ ~weidu_external/prod/tb#tweaks/tb#twsta.d~
 			APPEND_FILE ~otherStart.d~
 			EVALUATE_BUFFER
 			EVALUATE_BUFFER
@@ -306,9 +306,9 @@ BEGIN
   VERBOSE
 END
 
-COPY - empty ~tb#tweaks/prod/script.baf~
+COPY - empty ~weidu_external/prod/tb#tweaks/script.baf~
 
-COPY - empty ~tb#tweaks/prod/tb#twsta.d~
+COPY - empty ~weidu_external/prod/tb#tweaks/tb#twsta.d~
 	INSERT_BYTES 0 (STRING_LENGTH ~BEGIN TB#TWSTA
 	~)
 	WRITE_ASCII 0 ~BEGIN TB#TWSTA

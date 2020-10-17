@@ -1,9 +1,9 @@
 SILENT
-MKDIR ~tb#tweaks/prod~
+MKDIR ~weidu_external/prod/tb#tweaks~
 <<<<<<<< empty
 >>>>>>>>
 
-COPY empty ~tb#tweaks/prod/script.baf~
+COPY empty ~weidu_external/prod/tb#tweaks/script.baf~
 
 OUTER_FOR (i = 1; i <= 25; ++i) BEGIN
   COPY ~tb#tweaks/other/tb#set.spl~ ~override/tb#t3%abbrev%%i%.spl~
@@ -16,7 +16,7 @@ OUTER_FOR (i = 1; i <= 25; ++i) BEGIN
     WRITE_SHORT 0x9a opcode
     WRITE_LONG 0x9e ((10 - i - offset) / 2)
     
-    APPEND_OUTER ~tb#tweaks/prod/script.baf~ ~~~~~
+    APPEND_OUTER ~weidu_external/prod/tb#tweaks/script.baf~ ~~~~~
       IF
         ActionListEmpty()
         Global("tb#t3%abbrev%","LOCALS",0)
@@ -42,7 +42,7 @@ OUTER_FOR (i = 1; i <= 25; ++i) BEGIN
 END
 
 ACTION_FOR_EACH script IN dplayer2 dplayer3 grpsht01 shoutinv useitem wtarsgt wtasight wtatroll wtattwat wtrunsgt wtrunwat BEGIN
-  EXTEND_BOTTOM ~%script%.bcs~ ~tb#tweaks/prod/script.baf~
+  EXTEND_BOTTOM ~%script%.bcs~ ~weidu_external/prod/tb#tweaks/script.baf~
 END
 
 COPY_EXISTING_REGEXP GLOB ~^.*\.cre$~ ~override~
@@ -59,7 +59,7 @@ COPY_EXISTING_REGEXP GLOB ~^.*\.cre$~ ~override~
       END ELSE PATCH_IF iter = 1 BEGIN
         SPRINT $done (EVALUATE_BUFFER ~%script%~) ~%name%~
         INNER_ACTION BEGIN
-          EXTEND_BOTTOM ~%script%.bcs~ ~tb#tweaks/prod/script.baf~
+          EXTEND_BOTTOM ~%script%.bcs~ ~weidu_external/prod/tb#tweaks/script.baf~
         END
         found = 1
       END ELSE BEGIN
