@@ -8,12 +8,12 @@ COPY ~thresholds.2da~ ~thresholds.2da~
 	READ_2DA_ENTRIES_NOW thresholds 1
 BUT_ONLY
 	  
-ACTION_IF GAME_IS ~SoA ToB BGT~ THEN BEGIN
+ACTION_IF GAME_IS ~SoA ToB BGT BG2EE EET~ THEN BEGIN
 	LAUNCH_ACTION_FUNCTION addConditional STR_VAR name = soa condition = EVALUATE_BUFFER ~%endofBG1%~ END
 END
 
-ACTION_IF GAME_IS ~ToB BGT~ THEN BEGIN
-	LAUNCH_ACTION_FUNCTION addConditional STR_VAR name = tob condition = EVALUATE_BUFFER ~%endofBG1% GlobalGT("Chapter","GLOBAL",7)~ END
+ACTION_IF GAME_IS ~ToB BGT BG2EE EET~ THEN BEGIN
+	LAUNCH_ACTION_FUNCTION addConditional STR_VAR name = tob condition = EVALUATE_BUFFER ~%endofBG1% GlobalGT("Chapter","GLOBAL",%bg2_chapter_7%)~ END
 END
 
 COPY - ~tb#tweaks/prod/tb#twsta.d~ ~tb#tweaks/prod/tb#twsta.d~

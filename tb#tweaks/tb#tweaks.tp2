@@ -30,23 +30,11 @@ ALWAYS
 			OUTER_SET EVAL ~%name_source%~ = bg2_chapter
 		END
 
-		OUTER_SET tb#fix_file_size_min = 0x72
-		OUTER_SPRINT tb#fix_file_size_target "SW1H01.ITM"
-		OUTER_SPRINT tb#fix_file_size_category "items"
-		OUTER_SPRINT tb#fix_file_size_regexp "^.*\.itm$"
-		LAUNCH_ACTION_MACRO ~tb#fix_file_size~
-		
-		OUTER_SET tb#fix_file_size_min = 0x72
-		OUTER_SPRINT tb#fix_file_size_target "SPWI101.SPL"
-		OUTER_SPRINT tb#fix_file_size_category "spells"
-		OUTER_SPRINT tb#fix_file_size_regexp "^.*\.spl$"
-		LAUNCH_ACTION_MACRO ~tb#fix_file_size~
-		
-		OUTER_SET tb#fix_file_size_min = 0x2d4
-		OUTER_SPRINT tb#fix_file_size_target "AATAQAH.CRE"
-		OUTER_SPRINT tb#fix_file_size_category "creatures"
-		OUTER_SPRINT tb#fix_file_size_regexp "^.*\.cre$"
-		LAUNCH_ACTION_MACRO ~tb#fix_file_size~
+		ACTION_IF GAME_IS ~soa tob bgt ca tutu tutu_totsc iwd_in_bg2~ THEN BEGIN
+			ACTION_FOR_EACH file IN iplot01k.itm iplot04g.itm iplot04h.itm iplot04i.itm xr2400.are xr2600.are BEGIN
+				DISABLE_FROM_KEY "%file%"
+			END
+		END
 
 		MKDIR ~weidu_external/languages/tb#tweaks~
 
