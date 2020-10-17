@@ -303,7 +303,7 @@ function mail(text)
 			<span id="headerdiv-top-fw">A Spellhold Studios mod</span>
 		</div>
 		<div id="headerdiv-middle">
-			<span class="headerdiv-line">Author: the bigg</span> | <span class="headerdiv-line"><a href="http://forums.spellholdstudios.net/index.php?showforum=252" target="_blank">Forum</a> (opens new window)</span> | <span class="headerdiv-line">Version: 2.61</span>
+			<span class="headerdiv-line">Author: the bigg</span> | <span class="headerdiv-line"><a href="http://forums.spellholdstudios.net/index.php?showforum=252" target="_blank">Forum</a> (opens new window)</span> | <span class="headerdiv-line">Version: 3.0</span>
 		</div>
 		<div id="headerdiv-bottom">
 			<a href="#intro">Introduction</a> | <a href="#compatibility">Compatibility notes</a> | <a href="#installation">Installation</a> | <a href="#components">Components</a> | <a href="#faq">FAQ</a> | <a href="#version">Version history</a> | <a href="#credits">Credits</a> | <a href="#contact">Contact info</a>
@@ -333,6 +333,7 @@ function mail(text)
 				<p>
 				This mod should be installed as late as possible, in particular after any mod that adds new spells (or items), mods that add smarter fights, or mods that add RealGlobalSetTimer() actions (EG romances).
 				<br>All these component should install correctly and work over SoA only, but it's untested. Most of these components should also work correctly over Tutu, but that's untested too. (Some of these have no meaning for Tutu, since all the spells/abilities they tweak are of too high level, for example the Nature's Beauty, Imprisonment and/or Wish components).
+				<br>All these component are compatible with the Enhanced Edition of both BG1 (including the Siege of Dragonspear expansion) and BG2, as well as the Enhanced Edition Trilogy.
 		<address>
 					<span class="address-footer-1">The Bigg Tweak Pack &gt; Compatibility Notes</span>
 						<a href="#top">BACK TO TOP</a>
@@ -345,6 +346,10 @@ function mail(text)
 				<h4>
 					Installation
 				</h4>
+				
+				<h5><strong>Special Note for Siege of Dragonspear from Steam/GOG</h5>
+				<p>Good Old Games (GOG) and Steam both package the additional content for Siege of Dragonspear in a method that WeiDU, the tool used to install this mod, cannot access. You must  run a program called <a href="https://forums.beamdog.com/discussion/50441/modmerge-merge-your-steam-gog-zip-based-dlc-into-something-weidu-nearinfinity-dltcep-can-use/p1">Modmerge</a> on your SoD installation  before you can install this or any other WeiDU-based mod. </p>
+				
 				<h5>
 					Windows
 				</h5>
@@ -500,6 +505,8 @@ function mail(text)
 				<em>This component has no effect on an unmodded game, it only makes sense with mods that add smarter enemies according to the difficulty level (EG Ding0's Quest Pack, Oversight).</em>
 				<br>This component (based on an idea originally contained in the RtW mod) allows you to set the difficulty level to be different from the one set in the slider. This allows you to get more intelligent enemies, while not getting 200% damage.
 				<br>The difficulty is set via a dialogue with Ggib Eht; if you later want to change your difficulty level, you can either activate the AI, choose your character, and press the 'k' key, or use directly the "RTWMyDifficulty","Global" variable (1=easiest, 5=hardest).
+				<br>
+				<br>If you have the Enhanced Edition of either BG1 or BG2 (including Siege of Dragonspear DLC, or the Enhanced Edition Trilogy), Story Mode and Legacy of Bhaal will <b>not</b> be adjusted.
 				</div>
 				</p>
 
@@ -754,6 +761,11 @@ function mail(text)
 					Version History
 				</h4>
 		<p class="version">
+					Version 3.0:
+		</p>
+		<ul class="version-list">
+			<li>Enhanced Edition compability.</li>
+		</ul>
 					Version 2.61:
 		</p>
 		<ul class="version-list">

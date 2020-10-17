@@ -32,8 +32,9 @@ http://www.gibberlings3.net/bg2fixpack/~
 @11001 = ~Always~
 @11002 = ~Only for ** and up~
 @11003 = ~Everybody gets ApR from proficiency, only Warriors from level~
-@11004 = ~Component requires the Windows client of BG2 to work.
+@11004 = ~Component requires the Windows client of BG2 to work (not compatible with EE-engine).
 
+If you are using Enhanced Edition ask BeamDog to add required features to the engine...
 If you are using GemRB report this and I'll investigate compatibility.
 If you are using an Intel Mac get the Windows version of BG2 and run it via Wine.
 If you are using a PowerPC Mac you're SOL.
@@ -42,6 +43,12 @@ If you are using a PowerPC Mac you're SOL.
 @11006 = ~not implemented.~
 @11007 = ~Conflict: %clab%.2da is used both by a warrior and a non-warrior kit; report and I'll allow this.~
 @11008 = ~CLAB file shared between incompatible classes.~
+@11009 = ~Component requires the Windows client of BG2 to work and/or an EE-style engine.
+
+If you are using GemRB report this and I'll investigate compatibility.
+If you are using an Intel Mac get the Windows version of BG2 and run it via Wine (or play with EE...).
+If you are using a PowerPC Mac you're SOL.
+~
 @12000 = ~3rd edition style Strength~
 @13000 = ~3rd edition style Dexterity~
 @14000 = ~3rd edition style Constitution~

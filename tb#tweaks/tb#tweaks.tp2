@@ -456,13 +456,13 @@ BUT_ONLY_IF_IT_CHANGES
 BEGIN @11001
 DESIGNATED 3500
 SUBCOMPONENT @11000
-REQUIRE_FILE ~bgmain.exe~ @11004
+REQUIRE_FILE ~baldur.exe~ @11009
 INCLUDE ~tb#tweaks/lib/do_wspatck.tpa~
 
 BEGIN @11002
 SUBCOMPONENT @11000
 DESIGNATED 3550
-REQUIRE_FILE ~bgmain.exe~ @11004
+REQUIRE_FILE ~baldur.exe~ @11009
 INCLUDE ~tb#tweaks/lib/do_wspatck.tpa~
 
 COPY_EXISTING ~WSPATCK.2DA~ ~override~
@@ -479,7 +479,7 @@ BUT_ONLY
 BEGIN @11003
 SUBCOMPONENT @11000
 DESIGNATED 3600
-REQUIRE_FILE ~bgmain.exe~ @11004
+REQUIRE_FILE ~baldur.exe~ @11009
 INCLUDE ~tb#tweaks/lib/do_wspatck.tpa~
 INCLUDE ~tb#tweaks/lib/no_apr_from_level.tpa~
 
