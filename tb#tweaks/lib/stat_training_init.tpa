@@ -55,7 +55,7 @@ BARBARIAN	FORBIDDEN
 WILDMAGE	FORBIDDEN
 >>>>>>>>
 
-INCLUDE ~tb#tweaks/%LANGUAGE%/stats.tpa~
+INCLUDE ~weidu_external/languages/tb#tweaks/%LANGUAGE%/stats.tra~
 
 
 <<<<<<<< stat-section.d
@@ -315,4 +315,4 @@ COPY ~statsf.2da~ ~statsf.2da~
   READ_2DA_ENTRIES_NOW statsf 3
 BUT_ONLY 
 
-LOAD_TRA ~tb#tweaks/%LANGUAGE%/tb#twsta.tra~
+LOAD_TRA ~weidu_external/languages/tb#tweaks/%LANGUAGE%/tb#twsta.tra~

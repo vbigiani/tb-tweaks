@@ -1,5 +1,5 @@
-BACKUP ~tb#tweaks/backup~
-AUTHOR ~thebigg@spellholdstudios.net~
+BACKUP ~weidu_external/backup/tb#tweaks~
+AUTHOR ~http://www.shsforums.net/forum/252-the-bigg-tweaks/~
 
 ASK_EVERY_COMPONENT
 NO_IF_EVAL_BUG
@@ -7,44 +7,73 @@ LOAD ~tb#fix_file_size~
 
 // MODDER setup_tra none
 
-VERSION @500
+VERSION ~TB#Tweaks, V 3.0~
 README ~tb#tweaks/readme-TB#Tweaks-%LANGUAGE%.htm~ ~tb#tweaks/README-TB#Tweaks.htm~
 
-AUTO_TRA ~tb#tweaks/%s~
+AUTO_TRA ~weidu_external/languages/tb#tweaks/%s~
 
 // ASK_EVERY_COMPONENT
 
 ALWAYS
-	OUTER_SET tb#fix_file_size_min = 0x72
-	OUTER_SPRINT tb#fix_file_size_target "SW1H01.ITM"
-	OUTER_SPRINT tb#fix_file_size_category "items"
-	OUTER_SPRINT tb#fix_file_size_regexp "^.*\.itm$"
-	LAUNCH_ACTION_MACRO ~tb#fix_file_size~
-	
-	OUTER_SET tb#fix_file_size_min = 0x72
-	OUTER_SPRINT tb#fix_file_size_target "SPWI101.SPL"
-	OUTER_SPRINT tb#fix_file_size_category "spells"
-	OUTER_SPRINT tb#fix_file_size_regexp "^.*\.spl$"
-	LAUNCH_ACTION_MACRO ~tb#fix_file_size~
-	
-	OUTER_SET tb#fix_file_size_min = 0x2d4
-	OUTER_SPRINT tb#fix_file_size_target "AATAQAH.CRE"
-	OUTER_SPRINT tb#fix_file_size_category "creatures"
-	OUTER_SPRINT tb#fix_file_size_regexp "^.*\.cre$"
-	LAUNCH_ACTION_MACRO ~tb#fix_file_size~
-END  //ALWAYS
+	ACTION_IF ((FILE_EXISTS ~dlc/sod-dlc.zip~) OR (FILE_EXISTS ~sod-dlc.zip~)) THEN BEGIN FAIL @7 END // Modmerge check
+
+	ACTION_IF NOT VARIABLE_IS_SET bg2_chapter THEN BEGIN // check to make this happen only once per install
+		
+		ACTION_IF GAME_IS ~eet~ BEGIN
+			OUTER_SET bg2_chapter = 12
+		END ELSE BEGIN
+			OUTER_SET bg2_chapter = 0
+		END
+		OUTER_FOR (i=1; i<=10; i=i+1) BEGIN
+			OUTER_SET bg2_chapter = bg2_chapter + 1
+			OUTER_SPRINT name_source ~bg2_chapter_%i%~
+			OUTER_SET EVAL ~%name_source%~ = bg2_chapter
+		END
+
+		OUTER_SET tb#fix_file_size_min = 0x72
+		OUTER_SPRINT tb#fix_file_size_target "SW1H01.ITM"
+		OUTER_SPRINT tb#fix_file_size_category "items"
+		OUTER_SPRINT tb#fix_file_size_regexp "^.*\.itm$"
+		LAUNCH_ACTION_MACRO ~tb#fix_file_size~
+		
+		OUTER_SET tb#fix_file_size_min = 0x72
+		OUTER_SPRINT tb#fix_file_size_target "SPWI101.SPL"
+		OUTER_SPRINT tb#fix_file_size_category "spells"
+		OUTER_SPRINT tb#fix_file_size_regexp "^.*\.spl$"
+		LAUNCH_ACTION_MACRO ~tb#fix_file_size~
+		
+		OUTER_SET tb#fix_file_size_min = 0x2d4
+		OUTER_SPRINT tb#fix_file_size_target "AATAQAH.CRE"
+		OUTER_SPRINT tb#fix_file_size_category "creatures"
+		OUTER_SPRINT tb#fix_file_size_regexp "^.*\.cre$"
+		LAUNCH_ACTION_MACRO ~tb#fix_file_size~
+
+		MKDIR ~weidu_external/languages/tb#tweaks~
+
+		// convert strings to UTF-8 for BGEE/BG2EE
+		ACTION_DEFINE_ARRAY noconvert BEGIN setup END // List of tra files that contain ONLY strings for the WeiDU installer and NOT game content
+		LAF HANDLE_CHARSETS
+			INT_VAR infer_charsets = 1
+			STR_VAR tra_path = ~tb#tweaks~
+			out_path = ~weidu_external/languages/tb#tweaks~
+			type = ~\(tra\|tpa\)~
+			noconvert_array = ~noconvert~
+			default_language = ~english~
+		END
+	END
+END	//ALWAYS
 
 LANGUAGE ~English~
-	 ~English~
-	 ~tb#tweaks/English/setup.tra~
+	 ~english~
+	 ~tb#tweaks/english/setup.tra~
 
 LANGUAGE ~Russian by Alexey Marshalko aka Prowler~
-	 ~Russian~
-	 ~tb#tweaks/Russian/setup.tra~
+	 ~russian~
+	 ~tb#tweaks/russian/setup.tra~
 
 LANGUAGE ~German by Drogan Di'Umptu and Leonardo Watson~
-	 ~German~
-	 ~tb#tweaks/German/setup.tra~
+	 ~german~
+	 ~tb#tweaks/german/setup.tra~
 
 LANGUAGE ~Spanish by Lisandro~
 	 ~spanish~
@@ -83,10 +112,10 @@ DEPRECATED @2
 
 
 /* ****************************************
-            NATURAL BEAUTY
+						NATURAL BEAUTY
 **************************************** */
 
-BEGIN @1000   //natural beauty
+BEGIN @1000	 //natural beauty
 DESIGNATED 100
 
 UNINSTALL "setup-mazzythepaladin.tp2" 3
@@ -100,27 +129,27 @@ READ_LONG 0x64 "headoffset" ELSE 0
 READ_SHORT 0x68 "headcount" ELSE 0
 READ_LONG 0x6a "effectsoffset" ELSE 0
 WHILE ("%headcount%" > 0) BEGIN
-   READ_SHORT ("%headoffset%" + (("%headcount%" - 1 ) * 0x28) + 0x1e) "count" ELSE 0
-   READ_SHORT ("%headoffset%" + (("%headcount%" - 1 ) * 0x28) + 0x20) "effectsindex" ELSE 0
-   WHILE ("%count%" >0) BEGIN
-      READ_SHORT ("%effectsoffset%" + ("%effectsindex%" + "%count%" - 1 )* 0x30) "OPcode" ELSE 0
-      PATCH_IF ((("%OPcode%" = 142) OR ("%OPcode%" = 74))) BEGIN    //if it's blindness or Display Portait Icon
-      	    WRITE_BYTE (0x0c +"%effectsoffset%" + (("%effectsindex%" + "%count%" - 1 )* 0x30)) 0   //Duration type = Instant/duration
-      	    WRITE_LONG (0x0e + "%effectsoffset%" + (("%effectsindex%" + "%count%" - 1 )* 0x30)) 2400   //Time = 8 hours
-      END
-      SET "count" = ("%count%" -1)
-   END
-   SET "headcount" = "%headcount%" - 1
+	 READ_SHORT ("%headoffset%" + (("%headcount%" - 1 ) * 0x28) + 0x1e) "count" ELSE 0
+	 READ_SHORT ("%headoffset%" + (("%headcount%" - 1 ) * 0x28) + 0x20) "effectsindex" ELSE 0
+	 WHILE ("%count%" >0) BEGIN
+			READ_SHORT ("%effectsoffset%" + ("%effectsindex%" + "%count%" - 1 )* 0x30) "OPcode" ELSE 0
+			PATCH_IF ((("%OPcode%" = 142) OR ("%OPcode%" = 74))) BEGIN		//if it's blindness or Display Portait Icon
+						WRITE_BYTE (0x0c +"%effectsoffset%" + (("%effectsindex%" + "%count%" - 1 )* 0x30)) 0	 //Duration type = Instant/duration
+						WRITE_LONG (0x0e + "%effectsoffset%" + (("%effectsindex%" + "%count%" - 1 )* 0x30)) 2400	 //Time = 8 hours
+			END
+			SET "count" = ("%count%" -1)
+	 END
+	 SET "headcount" = "%headcount%" - 1
 END
 
 
 
 
 /* ****************************************
-           IMPRISONMENT FIX
+					 IMPRISONMENT FIX
 **************************************** */
 
-BEGIN @2000        //Imprisonment
+BEGIN @2000				//Imprisonment
 DESIGNATED 150
 
 UNINSTALL "setup-mazzythepaladin.tp2" 1
@@ -131,8 +160,8 @@ COPY_EXISTING ~sw1h01.itm~ ~override/tb#impri.txt~
 COPY ~tb#tweaks/imprisonment~ ~override~
 
 COPY_EXISTING ~intmod.2da~ ~override~
-  SET_2DA_ENTRY 25 5 6 1
-  SET_2DA_ENTRY 25 4 6 6000
+	SET_2DA_ENTRY 25 5 6 1
+	SET_2DA_ENTRY 25 4 6 6000
 
 
 
@@ -146,7 +175,7 @@ PRINT @1
 OUTER_SPRINT which ~impri~
 
 COPY_EXISTING_REGEXP GLOB ~.*\.spl~ ~override~
-      ~.*\.itm~ ~override~
+			~.*\.itm~ ~override~
 	PATCH_INCLUDE ~tb#tweaks/lib/scan_spl.tpp~
 BUT_ONLY_IF_IT_CHANGES
 
@@ -163,22 +192,22 @@ BUT_ONLY_IF_IT_CHANGES
 ADD_SCHOOL ~tb#imprisonment~ ~Freed~
 
 COPY_EXISTING ~tb#impri.spl~ ~override~
-  WRITE_SHORT 0x25 tb#imprisonment
+	WRITE_SHORT 0x25 tb#imprisonment
 
-ACTION_IF (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6150) || (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6151) || (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6152) THEN BEGIN  
-  COPY_EXISTING_REGEXP GLOB ~.*\.bcs~ ~override~
-    DECOMPILE_BCS_TO_BAF
-      REPLACE_TEXTUALLY EXACT_MATCH ~Global("DMWWImprisonPlayer","GLOBAL",1)~ ~True()~
-      REPLACE_TEXTUALLY EXACT_MATCH ~Global("DMWWImprisonPlayer","GLOBAL",0)~ ~False()~
-    COMPILE_BAF_TO_BCS
-  IF ~DMWWImprisonPlayer~
-  BUT_ONLY
+ACTION_IF (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6150) || (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6151) || (MOD_IS_INSTALLED ~scsii/setup-scsii.tp2~ 6152) THEN BEGIN	
+	COPY_EXISTING_REGEXP GLOB ~.*\.bcs~ ~override~
+		DECOMPILE_BCS_TO_BAF
+			REPLACE_TEXTUALLY EXACT_MATCH ~Global("DMWWImprisonPlayer","GLOBAL",1)~ ~True()~
+			REPLACE_TEXTUALLY EXACT_MATCH ~Global("DMWWImprisonPlayer","GLOBAL",0)~ ~False()~
+		COMPILE_BAF_TO_BCS
+	IF ~DMWWImprisonPlayer~
+	BUT_ONLY
 END
-  
+	
 
 
 /* ****************************************
-           PETRIFICATION FIX
+					 PETRIFICATION FIX
 **************************************** */
 
 BEGIN @3000
@@ -195,7 +224,7 @@ PRINT @1
 OUTER_SPRINT which petri
 
 COPY_EXISTING_REGEXP GLOB ~.*\.spl~ ~override~
-      ~.*\.itm~ ~override~
+			~.*\.itm~ ~override~
 	PATCH_INCLUDE ~tb#tweaks/lib/scan_spl.tpp~
 BUT_ONLY_IF_IT_CHANGES
 
@@ -215,19 +244,19 @@ COPY ~tb#tweaks/petrification~ ~override~
 ADD_SCHOOL ~tb#petrification~ ~Stone to Flesh~
 
 COPY_EXISTING ~tb#petri.spl~ ~override~
-  WRITE_SHORT 0x25 tb#petrification
+	WRITE_SHORT 0x25 tb#petrification
 
 COPY_EXISTING ~tb#depet.spl~ ~override~
-  WRITE_LONG 162 tb#petrification
+	WRITE_LONG 162 tb#petrification
 
 INCLUDE ~tb#tweaks/lib/baldur_baf_hack.tpa~
 
 
 /* ****************************************
-           DROP WEAPONS IN PANIC
+					 DROP WEAPONS IN PANIC
 **************************************** */
 
-BEGIN @4000           //Drop Weapons in Panic
+BEGIN @4000					 //Drop Weapons in Panic
 DESIGNATED 300
 
 UNINSTALL "setup-mazzythepaladin.tp2" 2
@@ -242,7 +271,7 @@ PRINT @1
 OUTER_SPRINT which drop
 
 COPY_EXISTING_REGEXP GLOB ~.*\.spl~ ~override~
-      ~.*\.itm~ ~override~
+			~.*\.itm~ ~override~
 	PATCH_INCLUDE ~tb#tweaks/lib/scan_spl.tpp~
 BUT_ONLY_IF_IT_CHANGES
 
@@ -260,7 +289,7 @@ BUT_ONLY_IF_IT_CHANGES
 
 
 /* ****************************************
-           WISHES FIX
+					 WISHES FIX
 **************************************** */
 
 BEGIN @5000
@@ -270,7 +299,7 @@ DEPRECATED @5001
 
 
 /* ****************************************
-           CONVENIENT WISHES
+					 CONVENIENT WISHES
 **************************************** */
 
 BEGIN @6001
@@ -285,7 +314,7 @@ COMPILE ~tb#tweaks/wish/convtob.d~
 
 
 /* ****************************************
-           CHEESY WISHES - TOB
+					 CHEESY WISHES - TOB
 **************************************** */
 
 BEGIN @7000
@@ -302,7 +331,7 @@ COMPILE ~tb#tweaks/wish/cheesytob.d~
 
 
 /* ****************************************
-           CHEESY WISHES - SOA
+					 CHEESY WISHES - SOA
 **************************************** */
 
 BEGIN @7001
@@ -317,7 +346,7 @@ COMPILE ~tb#tweaks/wish/cheesysoa.d~
 
 
 /* ****************************************
-           IMPROVED DIFFICULTY SYSTEM
+					 IMPROVED DIFFICULTY SYSTEM
 **************************************** */
 
 BEGIN @8000
@@ -326,7 +355,7 @@ SUBCOMPONENT @8001
 
 COPY_EXISTING ~sw1h01.itm~ ~override/tb#impdiff.txt~
 
-COMPILE ~tb#tweaks/impdiff/impdiff.d~  //dialogue for the talker, adjust all dialogue
+COMPILE ~tb#tweaks/impdiff/impdiff.d~	//dialogue for the talker, adjust all dialogue
 
 COPY ~tb#tweaks/impdiff/kylie.cre~ ~override/tb#impdi.cre~
 	SAY NAME1 ~Ggib Eht~
@@ -335,7 +364,7 @@ COPY ~tb#tweaks/impdiff/kylie.cre~ ~override/tb#impdi.cre~
 	WRITE_ASCII 0x268 ~~ #8
 	WRITE_ASCII 0x2cc ~TB#DIFF~ #8
 
-EXTEND_TOP "baldur.bcs" ~tb#tweaks/impdiff/start.baf~  // spawn Ggib if difficulty level isn't set.
+EXTEND_TOP "baldur.bcs" ~tb#tweaks/impdiff/start.baf~	// spawn Ggib if difficulty level isn't set.
 ACTION_IF FILE_EXISTS_IN_GAME ~baldur25.bcs~ THEN BEGIN
 EXTEND_TOP "baldur25.bcs" ~tb#tweaks/impdiff/start.baf~
 END
@@ -349,9 +378,9 @@ SUBCOMPONENT @8001
 
 COPY_EXISTING ~sw1h01.itm~ ~override/tb#impdiff.txt~
 
-COMPILE ~tb#tweaks/impdiff/impdiff_serious.d~  //dialogue for the talker, adjust all dialogue
+COMPILE ~tb#tweaks/impdiff/impdiff_serious.d~	//dialogue for the talker, adjust all dialogue
 
-EXTEND_TOP "baldur.bcs" ~tb#tweaks/impdiff/start_serious.baf~  // spawn Ggib if difficulty level isn't set.
+EXTEND_TOP "baldur.bcs" ~tb#tweaks/impdiff/start_serious.baf~	// spawn Ggib if difficulty level isn't set.
 ACTION_IF FILE_EXISTS_IN_GAME ~baldur25.bcs~ THEN BEGIN
 EXTEND_TOP "baldur25.bcs" ~tb#tweaks/impdiff/start_serious.baf~
 END
@@ -363,7 +392,7 @@ INCLUDE ~tb#tweaks/lib/impdiff.tpa~
 
 
 /* ****************************************
-           FASTER ROMANCES
+					 FASTER ROMANCES
 **************************************** */
 /* RealSetGlobalTimer(_,_,x) is changed to be
 multiply * x ^ (exponentiation / nth_root) / divide 
@@ -380,7 +409,7 @@ the 'compute_faster_romance' program yourself to find out the values yourself).
 BEGIN @9001
 SUBCOMPONENT @9000
 DESIGNATED 2500
-// 3600  -> 3300
+// 3600	-> 3300
 // 36000 -> 18000
 
 OUTER_SET multiply = 7975
@@ -393,7 +422,7 @@ INCLUDE ~tb#tweaks/lib/romances.tpa~
 BEGIN @9002
 SUBCOMPONENT @9000
 DESIGNATED 2550
-// 3600  -> 3000
+// 3600	-> 3000
 // 36000 -> 12000
 
 OUTER_SET multiply = 21689
@@ -406,7 +435,7 @@ INCLUDE ~tb#tweaks/lib/romances.tpa~
 BEGIN @9003
 SUBCOMPONENT @9000
 DESIGNATED 2600
-// 3600  -> 2700
+// 3600	-> 2700
 // 36000 -> 9000
 
 OUTER_SET multiply = 37581
@@ -418,7 +447,7 @@ INCLUDE ~tb#tweaks/lib/romances.tpa~
 
 
 /* ****************************************
-           NO ITEM STATS REQUIREMENTS
+					 NO ITEM STATS REQUIREMENTS
 **************************************** */
 BEGIN @10000
 DESIGNATED 3000
@@ -434,7 +463,7 @@ BUT_ONLY_IF_IT_CHANGES
 
 
 /* ****************************************
-           WSPATCK FOR EVERYBODY
+					 WSPATCK FOR EVERYBODY
 **************************************** */
 BEGIN @11001
 DESIGNATED 3500
@@ -468,7 +497,7 @@ INCLUDE ~tb#tweaks/lib/no_apr_from_level.tpa~
 
 
 /* ****************************************
-           3RD EDITION STYLE STR
+					 3RD EDITION STYLE STR
 **************************************** */
 BEGIN @12000
 DESIGNATED 4000
@@ -478,7 +507,7 @@ INCLUDE ~tb#tweaks/lib/3rd_ed_str.tpa~
 
 
 /* ****************************************
-           3RD EDITION STYLE DEX
+					 3RD EDITION STYLE DEX
 **************************************** */
 BEGIN @13000
 DESIGNATED 4500
@@ -488,7 +517,7 @@ INCLUDE ~tb#tweaks/lib/3rd_ed_dex.tpa~
 
 
 /* ****************************************
-           3RD EDITION STYLE CON
+					 3RD EDITION STYLE CON
 **************************************** */
 BEGIN @14000
 DESIGNATED 5000
@@ -499,7 +528,7 @@ INCLUDE ~tb#tweaks/lib/3rd_ed_con.tpa~
 
 
 /* ****************************************
-           3RD EDITION STYLE INT
+					 3RD EDITION STYLE INT
 **************************************** */
 BEGIN @15000
 DESIGNATED 5500
@@ -512,7 +541,7 @@ INCLUDE ~tb#tweaks/lib/3rd_ed_int.tpa~
 
 
 /* ****************************************
-           3RD EDITION STYLE WIS
+					 3RD EDITION STYLE WIS
 **************************************** */
 BEGIN @16000
 DESIGNATED 6000
@@ -524,7 +553,7 @@ INCLUDE ~tb#tweaks/lib/3rd_ed_wis.tpa~
 
 
 /* ****************************************
-           3RD EDITION STYLE CHA
+					 3RD EDITION STYLE CHA
 **************************************** */
 BEGIN @17000
 DESIGNATED 6500
@@ -535,7 +564,7 @@ INCLUDE ~tb#tweaks/lib/3rd_ed_cha.tpa~
 
 
 /* ****************************************
-           DRUIDS CAN USE METAL
+					 DRUIDS CAN USE METAL
 **************************************** */
 BEGIN @18000
 DESIGNATED 7000
@@ -546,7 +575,7 @@ INCLUDE ~tb#tweaks/lib/druids_and_metal.tpa~
 
 
 /* ****************************************
-           STAT TRAINING
+					 STAT TRAINING
 **************************************** */
 BEGIN @19003
 SUBCOMPONENT @19000
@@ -600,7 +629,7 @@ INCLUDE ~tb#tweaks/lib/stat_training.tpa~
 
 
 /* ****************************************
-           TRIVIAL DUAL-CLASS
+					 TRIVIAL DUAL-CLASS
 **************************************** */
 BEGIN @20000
 DESIGNATED 8000
@@ -611,7 +640,7 @@ INCLUDE ~tb#tweaks/lib/do_dualclass.tpa~
 
 
 /* ****************************************
-           FACESTABBING
+					 FACESTABBING
 **************************************** */
 BEGIN @21001
 DESIGNATED 8500
@@ -629,7 +658,7 @@ INCLUDE ~tb#tweaks/lib/facestab_non_detection.tpa~
 
 
 /* ****************************************
-           SPELLBOOKS
+					 SPELLBOOKS
 **************************************** */
 BEGIN @22001
 DESIGNATED 9000

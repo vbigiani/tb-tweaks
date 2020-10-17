@@ -7,6 +7,8 @@
 @4     = ~Skipping the TOB portion.~
 @5     = ~SoA+ToB -only component~
 @6     = ~SoA -only component.~
+@27    = ~Modmerge is required before mods can be installed on this game. Check the readme for more information and a link to download Modmerge.~
+
 @1000  = ~Nature's Beauty Tweak.~
 @2000  = ~Imprisonment Fix.~
 @3000  = ~Flesh to Stone Fix.~
