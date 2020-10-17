@@ -7,7 +7,7 @@ LOAD ~tb#fix_file_size~
 
 // MODDER setup_tra none
 
-VERSION ~TB#Tweaks, V 3.0~
+VERSION ~TB#Tweaks, V 2.99~
 README ~tb#tweaks/readme-TB#Tweaks-%LANGUAGE%.htm~ ~tb#tweaks/README-TB#Tweaks.htm~
 
 AUTO_TRA ~weidu_external/languages/tb#tweaks/%s~
